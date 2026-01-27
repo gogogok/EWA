@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class RegistrationViewController: UIViewController {
-
+    
+    typealias Model = EWAModel
+    
     //MARK: - Constants
     private enum Constants {
         static let welcomeLabelTopConstant: CGFloat = 100
@@ -39,9 +42,16 @@ class RegistrationViewController: UIViewController {
         static let doneButtonTop : CGFloat = 15
         static let doneButtonLeftRight: CGFloat = 100
         
+        static let fatalError: String = "Ошибка создания"
+        
+        static let alertTitle: String = "Регистрация"
+        static let alertMassege: String = "Проверьте почту, отправлена ссылка для подтверждения!"
     }
     
     //MARK: - Fields
+    
+    var interactor : EWAInteractor
+    
     let welcomeLabel: UIImageView = {
         let label = UIImageView()
         label.image = UIImage(named: "EWA_welcome.png")
@@ -54,6 +64,7 @@ class RegistrationViewController: UIViewController {
     var doneButton: UIButton = UIButton(type: .system)
     
     private let gradientLayer = CAGradientLayer() //градиент для кнопки
+    private var email: String = ""
     
     
     //MARK: - Load
@@ -65,6 +76,17 @@ class RegistrationViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = emailTextField.bounds
+    }
+    
+    //MARK: - Lyfecycle
+    init(interactor: EWAInteractor) {
+        self.interactor = interactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.fatalError)
     }
     
     //MARK: - Configure UI
@@ -84,7 +106,7 @@ class RegistrationViewController: UIViewController {
         welcomeLabel.setHeight(Constants.welcomeLabelHeightConstant)
         welcomeLabel.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.welcomeLabelTopConstant)
         welcomeLabel.pinHorizontal(to: view, Constants.leftRightWelcomeLabelConstant)
-       
+        
     }
     
     private func configureEnterEmailLabel() {
@@ -122,6 +144,11 @@ class RegistrationViewController: UIViewController {
         emailTextField.layer.masksToBounds = true
         emailTextField.layer.insertSublayer(gradientLayer, at: 0)
         
+        emailTextField.autocapitalizationType = .none
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocorrectionType = .no
+
+        
     }
     
     private func configureDoneButton() {
@@ -137,6 +164,8 @@ class RegistrationViewController: UIViewController {
         doneButton.layer.cornerRadius = Constants.enterEmailLabelCornerRadius
         doneButton.layer.masksToBounds = true
         doneButton.backgroundColor = ColorChangindMethods.getHEXColor(hex: Constants.lightLightPurple)
+        
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
     
     private func configureGradient() {
@@ -144,9 +173,26 @@ class RegistrationViewController: UIViewController {
             UIColor(hex: Constants.lightPurple)!.cgColor,
             UIColor(hex: Constants.purple)!.cgColor,
         ]
-
+        
         gradientLayer.startPoint = CGPoint(x: Constants.gradientStartX, y: Constants.gradientStartY)
         gradientLayer.endPoint   = CGPoint(x: Constants.gradientEndX, y: Constants.gradientEndY)
+    }
+    
+    //MARK: - target func
+    
+    @objc
+    private func doneButtonTapped() {
+        email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        interactor.loadEmail(Model.GetEmail.Request(email: email))
+        showInfoAlert(title: Constants.alertTitle, message: Constants.alertMassege)
+    }
+    
+    
+    //MARK: - Help func
+    private func showInfoAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ок", style: .default))
+        present(alert, animated: true)
     }
 
 }
