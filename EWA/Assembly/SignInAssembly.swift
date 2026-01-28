@@ -12,7 +12,7 @@ enum SignInAssembly {
         let presenter: EWAPresenter = EWAPresenter()
         let interactor: EWAInteractor = EWAInteractor(presenter: presenter)
         
-        let viewController: NewUserRegistrationViewController = NewUserRegistrationViewController(
+        let viewController: NewUserNameRegistrationViewController = NewUserNameRegistrationViewController(
             interactor: interactor
         )
 

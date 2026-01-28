@@ -5,6 +5,8 @@
 //  Created by Дарья Жданок on 26.01.26.
 //
 
+import UIKit
+
 final class EWAModel {
     
     enum GetEmail {
@@ -15,5 +17,17 @@ final class EWAModel {
             var email: String
         }
         struct ViewModel {}
+    }
+    
+    enum GetProfileIcon {
+        struct Request {
+            var viewController: UIViewController
+        }
+        struct Response {
+            var viewController: UIViewController
+        }
+        struct ViewModel {
+            var viewController: UIViewController
+        }
     }
 }

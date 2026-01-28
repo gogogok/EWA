@@ -147,8 +147,6 @@ class RegistrationViewController: UIViewController {
         emailTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocorrectionType = .no
-
-        
     }
     
     private func configureDoneButton() {
@@ -170,7 +168,7 @@ class RegistrationViewController: UIViewController {
     
     private func configureGradient() {
         gradientLayer.colors = [
-            UIColor(hex: Constants.lightPurple)!.cgColor,
+            UIColor(hex: Constants.lightLightPurple)!.cgColor,
             UIColor(hex: Constants.purple)!.cgColor,
         ]
         

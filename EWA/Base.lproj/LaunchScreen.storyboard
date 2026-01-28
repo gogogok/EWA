@@ -20,8 +20,8 @@
                                 <rect key="frame" x="23" y="219" width="347" height="246"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="левый_верхний_угол" translatesAutoresizingMaskIntoConstraints="NO" id="Vk9-nl-Et8">
-                                <rect key="frame" x="-60" y="0.0" width="348" height="211"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="левый_верхний_угол" translatesAutoresizingMaskIntoConstraints="NO" id="Oa1-bc-7Tm">
+                                <rect key="frame" x="-64" y="0.0" width="397" height="246"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>

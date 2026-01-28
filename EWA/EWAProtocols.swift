@@ -12,6 +12,8 @@ protocol EWABusinessLogic {
     typealias Model = EWAModel
     
     func loadEmail(_ request: Model.GetEmail.Request)
+    
+    func loadSecondRegistrationScreen(_ request: Model.GetProfileIcon.Request)
 }
 
 protocol EWAPresentationLogic {
@@ -20,5 +22,5 @@ protocol EWAPresentationLogic {
     
     var registarationView: RegistrationViewController? { get set}
     
-    func presentRegistration(_ response: Model.GetEmail.Response)
+    func presentIconRegistration(_ response: Model.GetProfileIcon.Response)
 }
