@@ -30,4 +30,16 @@ final class EWAModel {
             var viewController: UIViewController
         }
     }
+    
+    enum GetMainScreen {
+        struct Request {
+            var viewController: UITabBarController
+        }
+        struct Response {
+            var viewController: UITabBarController
+        }
+        struct ViewModel {
+            var viewController: UITabBarController
+        }
+    }
 }

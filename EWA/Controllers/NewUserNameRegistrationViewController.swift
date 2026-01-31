@@ -210,7 +210,7 @@ class NewUserNameRegistrationViewController: UIViewController {
         gradientLayer.endPoint   = CGPoint(x: Constants.gradientEndX, y: Constants.gradientEndY)
     }
     
-    func displayWishCalendarController(_ viewModel: Model.GetProfileIcon.ViewModel) {
+    func displayIconRegistrationScreen(_ viewModel: Model.GetProfileIcon.ViewModel) {
         navigationController?.pushViewController(viewModel.viewController, animated: true)
     }
     

@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseAuth
 
-class MainScreenViewController: UIViewController {
+class MainScreenViewController: UITabBarController {
     
     typealias Model = EWAModel
     

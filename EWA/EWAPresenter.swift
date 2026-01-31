@@ -14,6 +14,11 @@ final class EWAPresenter : EWAPresentationLogic {
     
     func presentIconRegistration(_ response: Model.GetProfileIcon.Response){
         userViewIcons = response.viewController as? ProfileIconChooseScreenController
-        newUserView?.displayWishCalendarController(Model.GetProfileIcon.ViewModel(viewController: userViewIcons!))
+        newUserView?.displayIconRegistrationScreen(Model.GetProfileIcon.ViewModel(viewController: userViewIcons!))
+    }
+    
+    func presentMainScreen(_ response: Model.GetMainScreen.Response) {
+        mainScreenView = response.viewController as? MainScreenViewController
+        userViewIcons?.displayMainScreen(Model.GetMainScreen.ViewModel(viewController: mainScreenView!))
     }
 }

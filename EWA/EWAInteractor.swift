@@ -33,4 +33,8 @@ final class EWAInteractor : EWABusinessLogic{
     func loadSecondRegistrationScreen(_ request: Model.GetProfileIcon.Request) {
         presenter.presentIconRegistration(Model.GetProfileIcon.Response(viewController: request.viewController))
     }
+    
+    func loadMainScreen(_ request: Model.GetMainScreen.Request) {
+        presenter.presentMainScreen(Model.GetMainScreen.Response(viewController: request.viewController))
+    }
 }
