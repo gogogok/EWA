@@ -23,11 +23,18 @@ final class EWAInteractor : EWABusinessLogic{
         UserDefaults.standard.set(request.email, forKey: "EmailForSignIn")
         Auth.auth().sendSignInLink(toEmail: request.email,
                                    actionCodeSettings: actionCodeSettings) { error in
-            if let error = error {
+            if error != nil {
                 return
             }
             
         }
-        presenter.presentRegistration(Model.GetEmail.Response(email: request.email))
+    }
+    
+    func loadSecondRegistrationScreen(_ request: Model.GetProfileIcon.Request) {
+        presenter.presentIconRegistration(Model.GetProfileIcon.Response(viewController: request.viewController))
+    }
+    
+    func loadMainScreen(_ request: Model.GetMainScreen.Request) {
+        presenter.presentMainScreen(Model.GetMainScreen.Response(viewController: request.viewController))
     }
 }
