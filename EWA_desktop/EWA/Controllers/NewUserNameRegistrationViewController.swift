@@ -14,6 +14,7 @@
 
 import UIKit
 import FirebaseAuth
+import Foundation
 
 class NewUserNameRegistrationViewController: UIViewController {
     
@@ -86,6 +87,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     //MARK: - Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkHealth()
         configureUI()
     }
     
@@ -190,13 +192,18 @@ class NewUserNameRegistrationViewController: UIViewController {
     
     
     
-    //MARK: - TargetFunc
+    //MARK: - Target func
     @objc
     private func dispalaySecondRegistrationScreen() {
         let viewController: ProfileIconChooseScreenController = ProfileIconChooseScreenController(
             interactor: interactor
         )
         interactor.loadSecondRegistrationScreen(Model.GetProfileIcon.Request(viewController: viewController))
+    }
+    
+    //MARK: - Display func
+    public func displayIconRegistrationScreen(_ viewModel: Model.GetProfileIcon.ViewModel) {
+        navigationController?.pushViewController(viewModel.viewController, animated: true)
     }
     
     //MARK: - Help func
@@ -210,10 +217,20 @@ class NewUserNameRegistrationViewController: UIViewController {
         gradientLayer.endPoint   = CGPoint(x: Constants.gradientEndX, y: Constants.gradientEndY)
     }
     
-    func displayIconRegistrationScreen(_ viewModel: Model.GetProfileIcon.ViewModel) {
-        navigationController?.pushViewController(viewModel.viewController, animated: true)
+    func checkHealth() {
+        let url = URL(string: "http://localhost:8080/api/health")!
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            let status = (response as? HTTPURLResponse)?.statusCode ?? -1
+            print("HTTP:", status)
+            if let data = data {
+                print(String(data: data, encoding: .utf8) ?? "")
+            }
+        }.resume()
     }
-    
 }
 
 

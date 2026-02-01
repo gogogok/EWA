@@ -1,4 +1,4 @@
-package com.example.EWA_backend;
+package com.ewa.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
