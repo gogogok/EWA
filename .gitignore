@@ -5,6 +5,21 @@
 ## User settings
 xcuserdata/
 
+# macOS
+.DS_Store
+
+# IntelliJ / IDEA
+.idea/
+*.iml
+out/
+
+# Gradle
+.gradle/
+**/build/
+
+# Logs
+*.log
+
 ##Secret
 **/GoogleService-Info.plist
 
