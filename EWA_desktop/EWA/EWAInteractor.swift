@@ -10,6 +10,7 @@ import FirebaseAuth
 final class EWAInteractor : EWABusinessLogic{
     
     var presenter: EWAPresenter
+    let userWorker = UserProfileWorker()
     
     init (presenter: EWAPresenter) {
         self.presenter = presenter
@@ -31,10 +32,14 @@ final class EWAInteractor : EWABusinessLogic{
     }
     
     func loadSecondRegistrationScreen(_ request: Model.GetProfileIcon.Request) {
+        let uid = Auth.auth().currentUser!.uid
+        userWorker.updateName(id: uid, name: request.name)
         presenter.presentIconRegistration(Model.GetProfileIcon.Response(viewController: request.viewController))
     }
     
     func loadMainScreen(_ request: Model.GetMainScreen.Request) {
+        let uid = Auth.auth().currentUser!.uid
+        userWorker.updateIcon(id: uid, iconName: request.iconName)
         presenter.presentMainScreen(Model.GetMainScreen.Response(viewController: request.viewController))
     }
 }

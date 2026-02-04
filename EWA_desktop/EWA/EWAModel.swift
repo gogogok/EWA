@@ -22,6 +22,7 @@ final class EWAModel {
     enum GetProfileIcon {
         struct Request {
             var viewController: UIViewController
+            var name: String
         }
         struct Response {
             var viewController: UIViewController
@@ -34,6 +35,7 @@ final class EWAModel {
     enum GetMainScreen {
         struct Request {
             var viewController: UITabBarController
+            var iconName: String
         }
         struct Response {
             var viewController: UITabBarController

@@ -153,6 +153,7 @@ class ProfileIconChooseScreenController : UIViewController {
     var doneButton: UIButton = UIButton(type: .system)
     
     var iconDescriptionLabelText: String = " Кто же ты сегодня..."
+    var selectedIcon: String = "fox"
     
     //MARK: - Load
     override func viewDidLoad() {
@@ -332,8 +333,8 @@ class ProfileIconChooseScreenController : UIViewController {
     
     @objc
     private func doneButtonTapped() {
-        let tabBar = MainScreenViewController(interactor: interactor)
-        interactor.loadMainScreen(Model.GetMainScreen.Request(viewController: tabBar))
+        let tabBar = TabScreensController(interactor: interactor)
+        interactor.loadMainScreen(Model.GetMainScreen.Request(viewController: tabBar, iconName: selectedIcon))
     }
     
     //MARK: - display func
@@ -393,6 +394,7 @@ class ProfileIconChooseScreenController : UIViewController {
         default:
             return
         }
+        selectedIcon = animal
     }
     
 }

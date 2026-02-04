@@ -12,7 +12,7 @@ enum MainScreenAssembly {
         let presenter: EWAPresenter = EWAPresenter()
         let interactor: EWAInteractor = EWAInteractor(presenter: presenter)
         
-        let viewController: MainScreenViewController = MainScreenViewController(
+        let viewController: TabScreensController = TabScreensController(
             interactor: interactor
         )
 

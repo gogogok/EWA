@@ -118,6 +118,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     }
     
     private func configureBackgroudUI() {
+        view.backgroundColor = .white
         view.addSubview(background)
         view.addSubview(top_image)
         
@@ -196,7 +197,7 @@ class NewUserNameRegistrationViewController: UIViewController {
         let viewController: ProfileIconChooseScreenController = ProfileIconChooseScreenController(
             interactor: interactor
         )
-        interactor.loadSecondRegistrationScreen(Model.GetProfileIcon.Request(viewController: viewController))
+        interactor.loadSecondRegistrationScreen(Model.GetProfileIcon.Request(viewController: viewController, name: nameTextField.text!))
     }
     
     //MARK: - Help func

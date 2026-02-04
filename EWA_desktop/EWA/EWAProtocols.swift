@@ -25,7 +25,7 @@ protocol EWAPresentationLogic {
     var registarationView: RegistrationViewController? { get set}
     var newUserView: NewUserNameRegistrationViewController? {get set}
     var userViewIcons: ProfileIconChooseScreenController? {get set}
-    var mainScreenView: MainScreenViewController? {get set}
+    var mainScreenView: TabScreensController? {get set}
     
     func presentIconRegistration(_ response: Model.GetProfileIcon.Response)
     

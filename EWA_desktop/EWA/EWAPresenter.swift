@@ -9,7 +9,7 @@ final class EWAPresenter : EWAPresentationLogic {
     weak var newUserView: NewUserNameRegistrationViewController?
     weak var userViewIcons: ProfileIconChooseScreenController?
     
-    weak var mainScreenView: MainScreenViewController?
+    weak var mainScreenView: TabScreensController?
     
     
     func presentIconRegistration(_ response: Model.GetProfileIcon.Response){
@@ -18,7 +18,7 @@ final class EWAPresenter : EWAPresentationLogic {
     }
     
     func presentMainScreen(_ response: Model.GetMainScreen.Response) {
-        mainScreenView = response.viewController as? MainScreenViewController
+        mainScreenView = response.viewController as? TabScreensController
         userViewIcons?.displayMainScreen(Model.GetMainScreen.ViewModel(viewController: mainScreenView!))
     }
 }

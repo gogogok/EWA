@@ -1,0 +1,200 @@
+//
+//  HomeScreenViewController.swift
+//  EWA
+//
+//  Created by Дарья Жданок on 4.02.26.
+//
+
+//
+//  MainScreenViewController.swift
+//  EWA
+//
+//  Created by Дарья Жданок on 27.01.26.
+//
+
+import UIKit
+import FirebaseAuth
+
+class HomeScreenViewController: UIViewController {
+    
+    typealias Model = EWAModel
+    
+    //MARK: - Constants
+    private enum Constants {
+        
+        static let fatalError: String = "Ошибка создания"
+
+        static let backgroundLeftRight: CGFloat = 50
+        
+        static let topImageTop: CGFloat = 0
+        static let topImageLeft: CGFloat = 25
+        static let topImageHeight: CGFloat = 170
+        
+        static let welcomeLabelText: String = "Выбери, что ты хочешь сделать сегодня! "
+        static let welcomeLabelFontSize: CGFloat = 28
+        static let welcomeLabelTop: CGFloat = 170
+        static let welcomeLabelHeight: CGFloat = 75
+        static let welcomeLabelLeftRight: CGFloat = 50
+        static let welcomeLabelCornerRadius: CGFloat = 10
+        
+        static let alarmButtonTop: CGFloat = 55
+        static let alarmButtonLeftRight: CGFloat = 10
+        static let buttonCornerRadius: CGFloat = 10
+        static let buttonHeight : CGFloat = 57
+        static let betweenButtonsTop: CGFloat = 20
+        static let buttonFont: String = "RubikMonoOne-Regular"
+        static let buttonFontSize: CGFloat = 18
+        
+        static let alarmButtonText: String = "ALARM"
+        static let studyButtonText: String = "STUDY TOGETHER"
+        static let adventureButtonText: String = "ADVENTURE   TIME"
+        
+        static let purple: String = "#9F5FFC"
+        static let lightPurple: String = "#D0B9FF"
+        static let lightLightPurple: String = "#E8D8FF"
+        static let green: String = "#40A27B"
+    }
+    
+    //MARK: - Fields
+    
+    var interactor : EWAInteractor
+    
+    let background: UIImageView = {
+        let label = UIImageView()
+        label.image = UIImage(named: "птица_фон")
+        label.contentMode = .scaleAspectFit
+        label.tintColor = .white
+        return label
+    }()
+    
+    let top_image: UIImageView = {
+        let label = UIImageView()
+        label.image = UIImage(named: "right_top_registation")
+        label.contentMode = .scaleAspectFit
+        label.tintColor = .white
+        return label
+    }()
+    
+    var welcomeLabel: PaddedLabel = PaddedLabel()
+    var alarmButton : UIButton = UIButton(type: .system)
+    var adventureButton : UIButton = UIButton(type: .system)
+    var studyButton : UIButton = UIButton(type: .system)
+    
+    
+    //MARK: - Load
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for button in [alarmButton, adventureButton, studyButton] {
+            button.layer.cornerRadius = Constants.buttonCornerRadius
+        }
+    }
+    
+    //MARK: - Lyfecycle
+    init(interactor: EWAInteractor) {
+        self.interactor = interactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.fatalError)
+    }
+    
+    //MARK: - Configure UI
+    private func configureUI() {
+        configureBackgroudUI()
+        configureWelcomeLabel()
+        configureButtons()
+    }
+    
+    private func configureBackgroudUI() {
+        view.backgroundColor = .white
+        view.addSubview(background)
+        view.addSubview(top_image)
+        
+        view.backgroundColor = .white
+        top_image.pinTop(to: view, Constants.topImageTop)
+        top_image.pinLeft(to: view.leadingAnchor, Constants.topImageLeft)
+        top_image.setHeight(Constants.topImageHeight)
+        
+        
+        background.pinCenter(to: view)
+        background.pinHorizontal(to: view, Constants.backgroundLeftRight)
+        
+        view.sendSubviewToBack(top_image)
+        view.sendSubviewToBack(background)
+    }
+    
+    private func configureWelcomeLabel() {
+        view.addSubview(welcomeLabel)
+        welcomeLabel.text = Constants.welcomeLabelText
+        welcomeLabel.textAlignment = .center
+        welcomeLabel.textColor = .black
+        welcomeLabel.font = UIFont(name: Constants.buttonFont, size: Constants.welcomeLabelFontSize)
+        welcomeLabel.numberOfLines = 2
+        welcomeLabel.pinTop(to: view, Constants.welcomeLabelTop)
+        welcomeLabel.pinHorizontal(to: view, Constants.welcomeLabelLeftRight)
+        welcomeLabel.setHeight(Constants.welcomeLabelHeight)
+        welcomeLabel.font = UIFont(name: "YanoneKaffeesatz-ExtraLight_Regular", size: Constants.welcomeLabelFontSize)
+        
+        welcomeLabel.layer.borderWidth = 1
+        welcomeLabel.layer.cornerRadius = Constants.welcomeLabelCornerRadius
+        welcomeLabel.layer.masksToBounds = true
+        welcomeLabel.backgroundColor = ColorChangindMethods.getHEXColor(hex: Constants.lightPurple)
+    }
+    
+    private func configureButtons() {
+        
+        let imgAlarm = UIImage(named: "alarm")?.withRenderingMode(.alwaysOriginal)
+        let studyImg = UIImage(named: "study_together")?.withRenderingMode(.alwaysOriginal)
+        let adventureImg = UIImage(named: "adventure_time")?.withRenderingMode(.alwaysOriginal)
+        
+        view.addSubview(alarmButton)
+        alarmButton.setBackgroundImage(imgAlarm, for: .normal)
+        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        alarmButton.imageView?.contentMode = .scaleAspectFit
+        alarmButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
+        alarmButton.pinTop(to: welcomeLabel.bottomAnchor, Constants.alarmButtonTop)
+        alarmButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
+        alarmButton.layer.borderWidth = 1
+        alarmButton.setHeight(Constants.buttonHeight)
+        alarmButton.setTitle(Constants.alarmButtonText, for: .normal)
+        alarmButton.setTitleColor(.black, for: .normal)
+        alarmButton.titleLabel?.textAlignment = .center
+        alarmButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+        
+        view.addSubview(studyButton)
+        studyButton.setBackgroundImage(studyImg, for: .normal)
+        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        studyButton.imageView?.contentMode = .scaleAspectFit
+        studyButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
+        studyButton.pinTop(to: alarmButton.bottomAnchor, Constants.betweenButtonsTop)
+        studyButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
+        studyButton.layer.borderWidth = 1
+        studyButton.setHeight(Constants.buttonHeight)
+        studyButton.setTitle(Constants.studyButtonText, for: .normal)
+        studyButton.setTitleColor(.black, for: .normal)
+        studyButton.titleLabel?.textAlignment = .center
+        studyButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+        
+        view.addSubview(adventureButton)
+        adventureButton.setBackgroundImage(adventureImg, for: .normal)
+        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        adventureButton.imageView?.contentMode = .scaleAspectFit
+        adventureButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
+        adventureButton.pinTop(to: studyButton.bottomAnchor, Constants.betweenButtonsTop)
+        adventureButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
+        adventureButton.layer.borderWidth = 1
+        adventureButton.setHeight(Constants.buttonHeight)
+        adventureButton.setTitle(Constants.adventureButtonText, for: .normal)
+        adventureButton.setTitleColor(.black, for: .normal)
+        adventureButton.titleLabel?.textAlignment = .center
+        adventureButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+    }
+}
+

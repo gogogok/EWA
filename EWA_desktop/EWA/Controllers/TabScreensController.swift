@@ -8,13 +8,13 @@
 import UIKit
 import FirebaseAuth
 
-class MainScreenViewController: UITabBarController {
+class TabScreensController: UITabBarController {
     
     typealias Model = EWAModel
     
     //MARK: - Constants
     private enum Constants {
-        
+    
         static let fatalError: String = "Ошибка создания"
 
     }
@@ -23,11 +23,33 @@ class MainScreenViewController: UITabBarController {
     
     var interactor : EWAInteractor
     
+    let background: UIImageView = {
+        let label = UIImageView()
+        label.image = UIImage(named: "птица_фон")
+        label.contentMode = .scaleAspectFit
+        label.tintColor = .white
+        return label
+    }()
     
+    let top_image: UIImageView = {
+        let label = UIImageView()
+        label.image = UIImage(named: "right_top_registation")
+        label.contentMode = .scaleAspectFit
+        label.tintColor = .white
+        return label
+    }()
+    
+    var welcomeLabel: PaddedLabel = PaddedLabel()
     
     //MARK: - Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewControllers = [
+            NewUserNameRegistrationViewController(interactor: interactor),
+            HomeScreenViewController(interactor: interactor),
+            ProfileIconChooseScreenController(interactor: interactor)
+        ]
+        selectedIndex = 1
         configureUI()
     }
     
@@ -49,10 +71,7 @@ class MainScreenViewController: UITabBarController {
     
     //MARK: - Configure UI
     private func configureUI() {
-        view.backgroundColor = .red
-        
     }
-    
-    
+
 }
 
