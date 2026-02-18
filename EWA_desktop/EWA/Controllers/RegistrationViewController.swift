@@ -50,7 +50,7 @@ class RegistrationViewController: UIViewController {
     
     //MARK: - Fields
     
-    var interactor : EWAInteractor
+    var interactor : RegistrationBusinessLogic
     
     let welcomeLabel: UIImageView = {
         let label = UIImageView()
@@ -79,7 +79,7 @@ class RegistrationViewController: UIViewController {
     }
     
     //MARK: - Lyfecycle
-    init(interactor: EWAInteractor) {
+    init(interactor: RegistrationBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -181,7 +181,7 @@ class RegistrationViewController: UIViewController {
     @objc
     private func doneButtonTapped() {
         email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        interactor.loadEmail(Model.GetEmail.Request(email: email))
+        interactor.loadEmail(Model.ModelEmail.Request(email: email))
         showInfoAlert(title: Constants.alertTitle, message: Constants.alertMassege)
     }
     

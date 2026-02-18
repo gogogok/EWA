@@ -41,7 +41,7 @@ class ProfileIconChooseScreenController : UIViewController {
         static let avatarsContainerTop: CGFloat = 20
         static let gridLeftRight: CGFloat = 20
         
-        static let iconCornerConstant: CGFloat = 4.8
+        static let iconCornerConstant: CGFloat = 81
         static let iconHeightWidthConstant: CGFloat = 2.5
         
         static let purple: String = "#9F5FFC"
@@ -73,7 +73,7 @@ class ProfileIconChooseScreenController : UIViewController {
     
     //MARK: - Fields
     
-    var interactor : EWAInteractor
+    var interactor : SetIconBusinessLogic
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -99,19 +99,21 @@ class ProfileIconChooseScreenController : UIViewController {
         return label
     }()
     
-    private let avatarsContainer: UIView = {
-        let v = UIView()
-        v.backgroundColor = UIColor(hex: Constants.green)
-        v.layer.cornerRadius = 24
-        v.layer.borderWidth = 2
-        v.layer.borderColor = UIColor.black.cgColor
-        
-        v.layer.shadowColor = UIColor.black.cgColor
-        v.layer.shadowOpacity = 0.18
-        v.layer.shadowRadius = 10
-        v.layer.shadowOffset = CGSize(width: 0, height: 6)
-        
-        return v
+    private lazy var avatarsGrid = AdaptiveGridStackView(
+        columns: 2,
+        spacing: Constants.gridLeftRight
+    )
+    
+    private let avatarsContainer: UIView = { let view = UIView()
+        view.backgroundColor = UIColor(hex: Constants.green)
+        view.layer.cornerRadius = 24
+        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.18
+        view.layer.shadowRadius = 10
+        view.layer.shadowOffset = CGSize(width: 0, height: 6)
+        return view
     }()
     
     private lazy var fox = makeAvatarImageView(named: "fox")
@@ -119,32 +121,7 @@ class ProfileIconChooseScreenController : UIViewController {
     private lazy var wolf = makeAvatarImageView(named: "wolf")
     private lazy var crow = makeAvatarImageView(named: "crow")
     
-    private lazy var row1: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [fox, squirrel])
-        s.spacing = Constants.gridLeftRight
-        s.axis = .horizontal
-        s.distribution = .equalSpacing
-        s.alignment = .center
-        return s
-    }()
-    
-    private lazy var row2: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [wolf, crow])
-        s.spacing = Constants.gridLeftRight
-        s.axis = .horizontal
-        s.distribution = .equalSpacing
-        s.alignment = .center
-        return s
-    }()
-    
-    private lazy var grid: UIStackView = {
-        let s = UIStackView(arrangedSubviews: [row1, row2])
-        s.spacing = Constants.gridLeftRight
-        s.axis = .vertical
-        s.distribution = .equalSpacing
-        s.alignment = .fill
-        return s
-    }()
+
     
     let customBackButton = UIButton(type: .system)
     var сhooseIconLabel: PaddedLabel = PaddedLabel()
@@ -153,6 +130,7 @@ class ProfileIconChooseScreenController : UIViewController {
     var doneButton: UIButton = UIButton(type: .system)
     
     var iconDescriptionLabelText: String = " Кто же ты сегодня..."
+    var selectedIcon: String = "fox"
     
     //MARK: - Load
     override func viewDidLoad() {
@@ -163,10 +141,13 @@ class ProfileIconChooseScreenController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        [fox, squirrel, wolf, crow].forEach {
+            $0.layer.cornerRadius = Constants.iconCornerConstant
+        }
     }
     
     //MARK: - Lyfecycle
-    init(interactor: EWAInteractor) {
+    init(interactor: SetIconBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -240,35 +221,30 @@ class ProfileIconChooseScreenController : UIViewController {
     
     private func configureIconsContainerView() {
         view.addSubview(avatarsContainer)
-        
+
         avatarsContainer.pinTop(to: сhooseIconLabel.bottomAnchor, Constants.avatarsContainerTop)
         avatarsContainer.pinHorizontal(to: view, Constants.avatarsContainerLeftRight)
-        
-        let viewWidth: CGFloat = view.frame.width
-        let width = viewWidth - 2 * Constants.avatarsContainerLeftRight
-        
-        avatarsContainer.setHeight(width)
-        avatarsContainer.addSubview(grid)
-        
-        grid.pinHorizontal(to: avatarsContainer, Constants.gridLeftRight)
-        grid.pinTop(to: avatarsContainer.topAnchor, Constants.gridLeftRight)
-        grid.pinBottom(to: avatarsContainer.bottomAnchor, Constants.gridLeftRight)
-        
+        avatarsContainer.addSubview(avatarsGrid)
+
+        avatarsGrid.pinHorizontal(to: avatarsContainer, Constants.gridLeftRight)
+        avatarsGrid.pinTop(to: avatarsContainer.topAnchor, Constants.gridLeftRight)
+        avatarsGrid.pinBottom(to: avatarsContainer.bottomAnchor, Constants.gridLeftRight)
+
         let items: [(UIImageView, String)] = [
             (fox, "fox"),
             (squirrel, "squirrel"),
             (crow, "crow"),
             (wolf, "wolf")
         ]
-        
+
         items.forEach { iv, id in
-            iv.setHeight(width/Constants.iconHeightWidthConstant)
-            iv.setWidth(width/Constants.iconHeightWidthConstant)
-            iv.layer.cornerRadius = (width - Constants.gridLeftRight)/Constants.iconCornerConstant
             iv.accessibilityIdentifier = id
             addTapFunc(to: iv)
         }
+
+        avatarsGrid.setItems(items.map { $0.0 })
     }
+
     
     private func configureDescriptionLabel() {
         view.addSubview(iconDescriptionLabel)
@@ -332,13 +308,13 @@ class ProfileIconChooseScreenController : UIViewController {
     
     @objc
     private func doneButtonTapped() {
-        let tabBar = MainScreenViewController(interactor: interactor)
-        interactor.loadMainScreen(Model.GetMainScreen.Request(viewController: tabBar))
+        let tabBar = TabScreenAssembly.build()
+        interactor.loadMainScreen(Model.StartMainScreen.Request(viewController: tabBar, iconName: selectedIcon))
     }
     
     //MARK: - display func
     
-    public func displayMainScreen( _ vm: Model.GetMainScreen.ViewModel) {
+    public func displayMainScreen( _ vm: Model.StartMainScreen.ViewModel) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else { return }
         
@@ -393,6 +369,7 @@ class ProfileIconChooseScreenController : UIViewController {
         default:
             return
         }
+        selectedIcon = animal
     }
     
 }

@@ -7,15 +7,16 @@
 
 import FirebaseAuth
 
-final class EWAInteractor : EWABusinessLogic{
+final class RegistrationInteractor : RegistrationBusinessLogic{
     
-    var presenter: EWAPresenter
+    var presenter: RegistrationPresenter
+    let userWorker = UserProfileManager()
     
-    init (presenter: EWAPresenter) {
+    init (presenter: RegistrationPresenter) {
         self.presenter = presenter
     }
     
-    func loadEmail(_ request: Model.GetEmail.Request) {
+    func loadEmail(_ request: Model.ModelEmail.Request) {
         let actionCodeSettings = ActionCodeSettings()
         actionCodeSettings.url = URL(string: "https://ewa-619ae.web.app")
         actionCodeSettings.handleCodeInApp = true
@@ -28,13 +29,5 @@ final class EWAInteractor : EWABusinessLogic{
             }
             
         }
-    }
-    
-    func loadSecondRegistrationScreen(_ request: Model.GetProfileIcon.Request) {
-        presenter.presentIconRegistration(Model.GetProfileIcon.Response(viewController: request.viewController))
-    }
-    
-    func loadMainScreen(_ request: Model.GetMainScreen.Request) {
-        presenter.presentMainScreen(Model.GetMainScreen.Response(viewController: request.viewController))
     }
 }

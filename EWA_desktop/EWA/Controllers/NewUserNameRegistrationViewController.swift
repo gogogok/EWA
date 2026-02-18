@@ -58,7 +58,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     
     //MARK: - Fields
     
-    var interactor : EWAInteractor
+    var interactor : SignUpBusinessLogic
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -95,7 +95,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     }
     
     //MARK: - Lyfecycle
-    init(interactor: EWAInteractor) {
+    init(interactor: SignUpBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,6 +118,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     }
     
     private func configureBackgroudUI() {
+        view.backgroundColor = .white
         view.addSubview(background)
         view.addSubview(top_image)
         
@@ -193,10 +194,8 @@ class NewUserNameRegistrationViewController: UIViewController {
     //MARK: - TargetFunc
     @objc
     private func dispalaySecondRegistrationScreen() {
-        let viewController: ProfileIconChooseScreenController = ProfileIconChooseScreenController(
-            interactor: interactor
-        )
-        interactor.loadSecondRegistrationScreen(Model.GetProfileIcon.Request(viewController: viewController))
+        let viewController = SetIconsAssembly.build()
+        interactor.loadSecondRegistrationScreen(Model.ModelProfileIcon.Request(viewController: viewController, name: nameTextField.text!))
     }
     
     //MARK: - Help func
@@ -210,7 +209,7 @@ class NewUserNameRegistrationViewController: UIViewController {
         gradientLayer.endPoint   = CGPoint(x: Constants.gradientEndX, y: Constants.gradientEndY)
     }
     
-    func displayIconRegistrationScreen(_ viewModel: Model.GetProfileIcon.ViewModel) {
+    func displayIconRegistrationScreen(_ viewModel: Model.ModelProfileIcon.ViewModel) {
         navigationController?.pushViewController(viewModel.viewController, animated: true)
     }
     

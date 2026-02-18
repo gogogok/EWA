@@ -18,13 +18,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let rootVC = SignInAssembly.build()
+        let rootVC = TabScreenAssembly.build()
         let window = UIWindow(windowScene: windowScene)
         
-        //
-        let navC = UINavigationController(rootViewController: rootVC)
-        window.rootViewController = navC
-        //window.rootViewController = rootVC
+        //это потом удалить
+        let uid = "1"
+        let email = "test@test.com"
+        let worker = UserProfileManager()
+        worker.signIn(id: uid, email: email)
+//        let navC = UINavigationController(rootViewController: rootVC)
+//        window.rootViewController = navC
+        
+        window.rootViewController = rootVC
         
         self.window = window
         window.makeKeyAndVisible()
@@ -61,13 +66,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             
             if isNew {
-                let rootVC = SignInAssembly.build()
+                let rootVC = SignUpAssembly.build()
                 let navC = UINavigationController(rootViewController: rootVC)
                 window.rootViewController = navC
                 self.window = window
                 window.makeKeyAndVisible()
+                
+                //сохранение первичных данных о пользователе
+                let uid = Auth.auth().currentUser!.uid
+                let worker = UserProfileManager()
+                worker.signIn(id: uid, email: email)
+                
             } else {
-                let rootVC = MainScreenAssembly.build()
+                let rootVC = TabScreenAssembly.build()
                 window.rootViewController = rootVC
                 self.window = window
                 window.makeKeyAndVisible()
