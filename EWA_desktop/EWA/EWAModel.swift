@@ -9,7 +9,7 @@ import UIKit
 
 final class EWAModel {
     
-    enum GetEmail {
+    enum ModelEmail {
         struct Request {
             var email: String
         }
@@ -19,7 +19,7 @@ final class EWAModel {
         struct ViewModel {}
     }
     
-    enum GetProfileIcon {
+    enum ModelProfileIcon {
         struct Request {
             var viewController: UIViewController
             var name: String
@@ -32,16 +32,16 @@ final class EWAModel {
         }
     }
     
-    enum GetMainScreen {
+    enum StartMainScreen {
         struct Request {
-            var viewController: UITabBarController
+            var viewController: UIViewController
             var iconName: String
         }
         struct Response {
-            var viewController: UITabBarController
+            var viewController: UIViewController
         }
         struct ViewModel {
-            var viewController: UITabBarController
+            var viewController: UIViewController
         }
     }
 }

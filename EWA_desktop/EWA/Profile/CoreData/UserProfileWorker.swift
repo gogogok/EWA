@@ -1,6 +1,6 @@
 import CoreData
 
-final class UserProfileRepository {
+final class UserProfileWorker {
     private let ctx = Persistence.shared.container.viewContext
     
     func fetchAll() throws -> [UserProfile] {
@@ -67,8 +67,8 @@ final class UserProfileRepository {
 }
 
 // MARK: - обёртка над репозиторием
-final class UserProfileWorker {
-    private let repo = UserProfileRepository()
+final class UserProfileManager {
+    private let repo = UserProfileWorker()
     private let ctx = Persistence.shared.container.viewContext
     
     func fetchAll() -> [UserProfile] { (try? repo.fetchAll()) ?? [] }

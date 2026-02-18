@@ -15,41 +15,28 @@ class TabScreensController: UITabBarController {
     //MARK: - Constants
     private enum Constants {
     
+        static let selectedIndex: Int = 2
         static let fatalError: String = "Ошибка создания"
 
     }
     
     //MARK: - Fields
     
-    var interactor : EWAInteractor
-    
-    let background: UIImageView = {
-        let label = UIImageView()
-        label.image = UIImage(named: "птица_фон")
-        label.contentMode = .scaleAspectFit
-        label.tintColor = .white
-        return label
-    }()
-    
-    let top_image: UIImageView = {
-        let label = UIImageView()
-        label.image = UIImage(named: "right_top_registation")
-        label.contentMode = .scaleAspectFit
-        label.tintColor = .white
-        return label
-    }()
-    
-    var welcomeLabel: PaddedLabel = PaddedLabel()
+    var interactor : TabScreenBusinessLogic
+    private let customBar = CustomTabBarView()
     
     //MARK: - Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.isHidden = true
         viewControllers = [
-            NewUserNameRegistrationViewController(interactor: interactor),
-            HomeScreenViewController(interactor: interactor),
-            ProfileIconChooseScreenController(interactor: interactor)
+            SignUpAssembly.build(),
+            SetIconsAssembly.build(),
+            HomeScreenAssembly.build(),
+            SignUpAssembly.build(),
+            RegistrationAssembly.build()
         ]
-        selectedIndex = 1
+        selectedIndex = Constants.selectedIndex
         configureUI()
     }
     
@@ -59,7 +46,7 @@ class TabScreensController: UITabBarController {
     }
     
     //MARK: - Lyfecycle
-    init(interactor: EWAInteractor) {
+    init(interactor: TabScreenBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -71,6 +58,20 @@ class TabScreensController: UITabBarController {
     
     //MARK: - Configure UI
     private func configureUI() {
+        setupCustomTabBar()
+    }
+    
+    private func setupCustomTabBar() {
+        view.addSubview(customBar)
+        
+        customBar.configurePosition(view: view)
+
+        customBar.onSelect = { [weak self] index in
+            self?.selectedIndex = index
+        }
+
+        customBar.setSelected(index: selectedIndex)
+        
     }
 
 }

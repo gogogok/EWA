@@ -7,16 +7,14 @@
 
 import UIKit
 
-enum MainScreenAssembly {
+enum TabScreenAssembly {
     static func build() -> UIViewController {
-        let presenter: EWAPresenter = EWAPresenter()
-        let interactor: EWAInteractor = EWAInteractor(presenter: presenter)
+        let presenter: TabScreenPresentationLogic = TabScreenPresenter()
+        let interactor: TabScreenBusinessLogic = TabScreenInteractor(presenter: presenter)
         
         let viewController: TabScreensController = TabScreensController(
             interactor: interactor
         )
-
-        presenter.mainScreenView = viewController
 
         return viewController
     }

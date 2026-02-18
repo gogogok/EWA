@@ -7,17 +7,16 @@
 
 import UIKit
 
-enum SignInAssembly {
+enum SignUpAssembly {
     static func build() -> UIViewController {
-        let presenter: EWAPresenter = EWAPresenter()
-        let interactor: EWAInteractor = EWAInteractor(presenter: presenter)
+        var presenter: SignUpPresentationLogic = SignUpPresenter()
+        let interactor: SignUpBusinessLogic = SignUpInteractor(presenter: presenter)
         
         let viewController: NewUserNameRegistrationViewController = NewUserNameRegistrationViewController(
             interactor: interactor
         )
 
         presenter.newUserView = viewController
-
         return viewController
     }
 }

@@ -37,17 +37,20 @@ class HomeScreenViewController: UIViewController {
         static let welcomeLabelLeftRight: CGFloat = 50
         static let welcomeLabelCornerRadius: CGFloat = 10
         
-        static let alarmButtonTop: CGFloat = 55
-        static let alarmButtonLeftRight: CGFloat = 10
-        static let buttonCornerRadius: CGFloat = 10
-        static let buttonHeight : CGFloat = 57
-        static let betweenButtonsTop: CGFloat = 20
+        static let stackButtonsTop: CGFloat = 70
         static let buttonFont: String = "RubikMonoOne-Regular"
-        static let buttonFontSize: CGFloat = 18
+        static let betweenButtonsTop: CGFloat = 20
+        static let buttonCornerRadius: CGFloat = 10
+        static let buttonLeftRight: CGFloat = 10
         
         static let alarmButtonText: String = "ALARM"
+        static let imgAlarm : String = "alarm"
+        
         static let studyButtonText: String = "STUDY TOGETHER"
+        static let studyImg: String = "study_together"
+        
         static let adventureButtonText: String = "ADVENTURE   TIME"
+        static let adventureImg: String = "adventure_time"
         
         static let purple: String = "#9F5FFC"
         static let lightPurple: String = "#D0B9FF"
@@ -57,7 +60,7 @@ class HomeScreenViewController: UIViewController {
     
     //MARK: - Fields
     
-    var interactor : EWAInteractor
+    var interactor : HomeScreenBusinessLogic
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -76,9 +79,9 @@ class HomeScreenViewController: UIViewController {
     }()
     
     var welcomeLabel: PaddedLabel = PaddedLabel()
-    var alarmButton : UIButton = UIButton(type: .system)
-    var adventureButton : UIButton = UIButton(type: .system)
-    var studyButton : UIButton = UIButton(type: .system)
+    var alarmButton : ChooseMenuButton?
+    var adventureButton :  ChooseMenuButton?
+    var studyButton : ChooseMenuButton?
     
     
     //MARK: - Load
@@ -90,12 +93,12 @@ class HomeScreenViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         for button in [alarmButton, adventureButton, studyButton] {
-            button.layer.cornerRadius = Constants.buttonCornerRadius
+            button!.layer.cornerRadius = Constants.buttonCornerRadius
         }
     }
     
     //MARK: - Lyfecycle
-    init(interactor: EWAInteractor) {
+    init(interactor: HomeScreenBusinessLogic) {
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
@@ -149,52 +152,20 @@ class HomeScreenViewController: UIViewController {
     }
     
     private func configureButtons() {
+        alarmButton = ChooseMenuButton(imgName: Constants.imgAlarm, text: Constants.alarmButtonText, view: view)
+        adventureButton = ChooseMenuButton(imgName: Constants.adventureImg, text: Constants.adventureButtonText, view: view)
+        studyButton = ChooseMenuButton(imgName: Constants.studyImg, text: Constants.studyButtonText, view: view)
+        let buttonStackView = UIStackView(arrangedSubviews: [alarmButton!, adventureButton!, studyButton!])
+        view.addSubview(buttonStackView)
+        for button in [alarmButton!, adventureButton!, studyButton!] {
+            button.configureButton()
+        }
         
-        let imgAlarm = UIImage(named: "alarm")?.withRenderingMode(.alwaysOriginal)
-        let studyImg = UIImage(named: "study_together")?.withRenderingMode(.alwaysOriginal)
-        let adventureImg = UIImage(named: "adventure_time")?.withRenderingMode(.alwaysOriginal)
         
-        view.addSubview(alarmButton)
-        alarmButton.setBackgroundImage(imgAlarm, for: .normal)
-        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        alarmButton.imageView?.contentMode = .scaleAspectFit
-        alarmButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
-        alarmButton.pinTop(to: welcomeLabel.bottomAnchor, Constants.alarmButtonTop)
-        alarmButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
-        alarmButton.layer.borderWidth = 1
-        alarmButton.setHeight(Constants.buttonHeight)
-        alarmButton.setTitle(Constants.alarmButtonText, for: .normal)
-        alarmButton.setTitleColor(.black, for: .normal)
-        alarmButton.titleLabel?.textAlignment = .center
-        alarmButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
-        
-        view.addSubview(studyButton)
-        studyButton.setBackgroundImage(studyImg, for: .normal)
-        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        studyButton.imageView?.contentMode = .scaleAspectFit
-        studyButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
-        studyButton.pinTop(to: alarmButton.bottomAnchor, Constants.betweenButtonsTop)
-        studyButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
-        studyButton.layer.borderWidth = 1
-        studyButton.setHeight(Constants.buttonHeight)
-        studyButton.setTitle(Constants.studyButtonText, for: .normal)
-        studyButton.setTitleColor(.black, for: .normal)
-        studyButton.titleLabel?.textAlignment = .center
-        studyButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
-        
-        view.addSubview(adventureButton)
-        adventureButton.setBackgroundImage(adventureImg, for: .normal)
-        //alarmButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        adventureButton.imageView?.contentMode = .scaleAspectFit
-        adventureButton.imageView?.layer.cornerRadius = Constants.buttonCornerRadius
-        adventureButton.pinTop(to: studyButton.bottomAnchor, Constants.betweenButtonsTop)
-        adventureButton.pinHorizontal(to: view, Constants.alarmButtonLeftRight)
-        adventureButton.layer.borderWidth = 1
-        adventureButton.setHeight(Constants.buttonHeight)
-        adventureButton.setTitle(Constants.adventureButtonText, for: .normal)
-        adventureButton.setTitleColor(.black, for: .normal)
-        adventureButton.titleLabel?.textAlignment = .center
-        adventureButton.titleLabel?.font = UIFont(name: Constants.buttonFont, size: Constants.buttonFontSize)
+        buttonStackView.axis = .vertical
+        buttonStackView.spacing = Constants.betweenButtonsTop
+        buttonStackView.pinTop(to: welcomeLabel.bottomAnchor, Constants.stackButtonsTop)
+        buttonStackView.pinHorizontal(to: view, Constants.stackButtonsTop)
     }
 }
 

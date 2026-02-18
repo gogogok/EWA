@@ -7,16 +7,14 @@
 
 import UIKit
 
-enum EWAAssembly {
+enum RegistrationAssembly {
     static func build() -> UIViewController {
-        let presenter: EWAPresenter = EWAPresenter()
-        let interactor: EWAInteractor = EWAInteractor(presenter: presenter)
+        let presenter: RegistrationPresentationLogic = RegistrationPresenter()
+        let interactor: RegistrationInteractor = RegistrationInteractor(presenter: presenter as! RegistrationPresenter)
         
         let viewController: RegistrationViewController = RegistrationViewController(
             interactor: interactor
         )
-
-        presenter.registarationView = viewController
 
         return viewController
     }
