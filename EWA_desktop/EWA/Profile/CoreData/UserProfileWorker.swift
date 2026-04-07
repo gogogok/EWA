@@ -8,6 +8,13 @@ final class UserProfileWorker {
         return try ctx.fetch(req)
     }
     
+    func fetchById(_ id: String) -> UserProfile? {
+        let fetch: NSFetchRequest<UserProfile> = UserProfile.fetchRequest()
+        fetch.fetchLimit = 1
+        fetch.predicate = NSPredicate(format: "id == %@", id)
+        return try? ctx.fetch(fetch).first
+    }
+    
     @discardableResult
     func add(userProfile: UserProfile) -> UserProfile {
         let profile = UserProfile(context: ctx)
@@ -72,6 +79,7 @@ final class UserProfileManager {
     private let ctx = Persistence.shared.container.viewContext
     
     func fetchAll() -> [UserProfile] { (try? repo.fetchAll()) ?? [] }
+    func fetchById(id: String) -> UserProfile? { (repo.fetchById(id))}
     func add(userProfile: UserProfile) -> UserProfile { repo.add(userProfile: userProfile) }
     func signIn(id: String, email: String) { repo.signInUser(id: id, email: email) }
     func updateName(id: String, name: String) {repo.updateName(id: id, name: name)}

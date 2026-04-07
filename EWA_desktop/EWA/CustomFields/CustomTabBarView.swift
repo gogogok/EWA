@@ -8,6 +8,7 @@ import UIKit
 
 final class CustomTabBarView: UIView {
 
+    //MARK: - Constants
     enum Constants {
         static let iconSize: CGFloat = 30
         static let customIconSize: CGFloat = 40
@@ -39,6 +40,8 @@ final class CustomTabBarView: UIView {
     
     var onSelect: ((Int) -> Void)?
 
+    //MARK: - Fields
+    
     private let stack = UIStackView()
     private let buttons: [UIButton] = [
         UIButton(type: .system),
