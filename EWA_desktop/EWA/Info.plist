@@ -19,6 +19,10 @@
 	<array>
 		<string>YanoneKaffeesatz.ttf</string>
 		<string>RubikMonoOne-Regular.ttf</string>
+		<string>Tinos-Regular.ttf</string>
+		<string>Tinos-Italic.ttf</string>
+		<string>Tinos-Bold.ttf</string>
+		<string>Tinos-BoldItalic.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

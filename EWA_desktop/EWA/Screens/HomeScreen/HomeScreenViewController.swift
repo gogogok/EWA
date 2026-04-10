@@ -81,6 +81,7 @@ class HomeScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        addAvtionsToButtons()
     }
     
     override func viewDidLayoutSubviews() {
@@ -159,6 +160,30 @@ class HomeScreenViewController: UIViewController {
         buttonStackView.spacing = Constants.betweenButtonsTop
         buttonStackView.pinTop(to: welcomeLabel.bottomAnchor, Constants.stackButtonsTop)
         buttonStackView.pinHorizontal(to: view, Constants.stackButtonsTop)
+    }
+    
+    private func addAvtionsToButtons() {
+        alarmButton?.addTarget(self, action: #selector(openAlarm), for: .touchUpInside)
+        adventureButton?.addTarget(self, action: #selector(openAdventure), for: .touchUpInside)
+        studyButton?.addTarget(self, action: #selector(openStudy), for: .touchUpInside)
+    }
+    
+    @objc private func openAlarm() {
+        if let tabBar = tabBarController as? TabScreensController {
+                tabBar.selectTab(index: 1)
+            }
+    }
+
+    @objc private func openAdventure() {
+        if let tabBar = tabBarController as? TabScreensController {
+                tabBar.selectTab(index: 4)
+            }
+    }
+
+    @objc private func openStudy() {
+        if let tabBar = tabBarController as? TabScreensController {
+                tabBar.selectTab(index: 3)
+            }
     }
 }
 

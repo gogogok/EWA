@@ -59,5 +59,11 @@ class TabScreensController: UITabBarController {
         }
         customBar.setSelected(index: selectedIndex)
     }
+    
+    //MARK: - Leading methods
+    func selectTab(index: Int) {
+        selectedIndex = index
+        customBar.setSelected(index: index)
+    }
 
 }
