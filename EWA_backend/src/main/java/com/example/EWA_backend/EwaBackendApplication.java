@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class EwaBackendApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(EwaBackendApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(EwaBackendApplication.class, args);
+    }
 }
