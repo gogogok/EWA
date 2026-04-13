@@ -12,6 +12,7 @@ public class HealthController {
 
     @GetMapping("/health")
     public Map<String, String> health() {
+        System.out.println("Запрос пришёл");
         return Map.of("status", "ok");
     }
 }

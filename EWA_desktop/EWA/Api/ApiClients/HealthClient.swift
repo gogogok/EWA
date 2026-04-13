@@ -12,7 +12,7 @@ struct HealthResponse: Decodable {
 }
 
 final class HealthClient {
-    private let baseURL = "http://127.0.0.1:8080"
+    private let baseURL = Environment.current.baseURL
 
     func fetchHealth() async throws -> HealthResponse {
         guard let url = URL(string: "\(baseURL)/api/health") else {

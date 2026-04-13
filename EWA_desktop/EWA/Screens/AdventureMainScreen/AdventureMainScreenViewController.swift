@@ -96,6 +96,12 @@ class AdventureMainScreenViewController: UIViewController {
         super.viewDidLoad()
         loadData()
         configureUI()
+        var health = HealthClient()
+        Task {
+            do {
+                try await print(health.fetchHealth().status)
+            }
+        }
         for family in UIFont.familyNames {
             print("Family: \(family)")
             for name in UIFont.fontNames(forFamilyName: family) {
