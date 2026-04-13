@@ -244,6 +244,7 @@ class AdventureMainScreenViewController: UIViewController {
     //MARK: - Work with data
     private func loadData() {
         items = [.init(
+            id: "event_1",
             title: "Третьяковка",
             description: "Хочу сходить в Третьяковку",
             category: "Искусство",
@@ -252,6 +253,7 @@ class AdventureMainScreenViewController: UIViewController {
             buttonTitle: "Вперёд!"
         ),
         .init(
+            id: "event_2",
             title: "Кино",
             description: "Ищу компанию на вечерний фильм",
             category: "Развлечения",
@@ -285,7 +287,7 @@ extension AdventureMainScreenViewController: UITableViewDataSource, UITableViewD
         }
         
         cell.onCardTap = { [weak self] in
-            let vc = ShowMoreEventsAssembly.build()
+            let vc = ShowMoreEventsAssembly.build(id: item.id)
             vc.modalPresentationStyle = .overCurrentContext
             self?.present(vc, animated: true, completion: nil)
         }

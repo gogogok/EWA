@@ -10,6 +10,7 @@ import UIKit
 final class AdventureCardView: UIView {
     
     struct Model {
+        let id: String
         let title: String
         let description: String
         let category: String

@@ -1,8 +1,8 @@
 //
-//  ApiClient.swift
+//  HealthClient.swift
 //  EWA
 //
-//  Created by Дарья Жданок on 11.04.26.
+//  Created by Дарья Жданок on 12.04.26.
 //
 
 import Foundation
@@ -11,7 +11,7 @@ struct HealthResponse: Decodable {
     let status: String
 }
 
-final class APIClient {
+final class HealthClient {
     private let baseURL = "http://127.0.0.1:8080"
 
     func fetchHealth() async throws -> HealthResponse {

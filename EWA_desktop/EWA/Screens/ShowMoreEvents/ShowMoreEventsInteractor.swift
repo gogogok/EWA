@@ -6,4 +6,18 @@ final class ShowMoreEventsInteractor : ShowMoreEventsBusinessLogic{
         self.presenter = presenter
     }
     
+    func fetchEvent(id: String?) {
+        guard let id = id else { return }
+        Task{
+            do {
+                let event = try await EventsApClient.shared.getEventById(id: id)
+                
+                await MainActor.run {
+                    presenter.presentEvent(event)
+                }
+            } catch {
+                print("Error: ", error)
+            }
+        }
+    }
 }

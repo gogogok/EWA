@@ -4,4 +4,7 @@ final class  ShowMoreEventsPresenter :  ShowMoreEventsPresentationLogic  {
     
     weak var view: ShowMoreEventsViewController?
     
+    func presentEvent(_ event: EventResponse) {
+        view?.displayEvent(event)
+    }
 }
