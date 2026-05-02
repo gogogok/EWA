@@ -2,25 +2,28 @@ package com.example.EWA_backend.events;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "events")
 public class EventEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     private String name;
 
-    private Long userId;
+    private String userId;
 
     private String description;
 
     private String category;
 
-    private LocalDateTime dateTime;
+    private LocalDate date;
+
+    private LocalTime time;
 
     private String place;
 
@@ -29,19 +32,19 @@ public class EventEntity {
     public EventEntity() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long id) {
+    public void setUserId(String id) {
         this.userId = id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -69,12 +72,20 @@ public class EventEntity {
         this.category = category;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public String getPlace() {

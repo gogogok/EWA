@@ -4,11 +4,12 @@ import com.example.EWA_backend.users.UserResponse;
 
 public class EventResponse {
 
-    private Long id;
-    private Long userId;
+    private String id;
+    private String userId;
     private String name;
     private String category;
-    private String dateTime;
+    private String date;
+    private String time;
     private String place;
     private String description;
     private String comment;
@@ -17,34 +18,35 @@ public class EventResponse {
     public EventResponse() {
     }
 
-    public EventResponse(Long id, Long userId, String name, String category,
-                         String dateTime, String place,
+    public EventResponse(String id, String userId, String name, String category,
+                         String date, String time, String place,
                          String description, String comment,
                          UserResponse user) {
         this.id = id;
         this.userId = userId;
         this.name = name;
         this.category = category;
-        this.dateTime = dateTime;
+        this.date = date;
+        this.time = time;
         this.place = place;
         this.description = description;
         this.comment = comment;
         this.user = user;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -64,12 +66,20 @@ public class EventResponse {
         this.category = category;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getPlace() {

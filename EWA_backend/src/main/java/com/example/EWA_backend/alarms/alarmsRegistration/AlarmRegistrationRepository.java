@@ -1,21 +1,25 @@
-package com.example.EWA_backend.events.eventsRegistration;
+package com.example.EWA_backend.alarms.alarmsRegistration;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface EventRegistrationRepository extends JpaRepository<EventRegistrationEntity, String> {
+public interface AlarmRegistrationRepository extends JpaRepository<AlarmsRegistrationEntity, String> {
 
-    List<EventRegistrationEntity> findByUserId(String userId);
+    List<AlarmsRegistrationEntity> findByUserId(String userId);
 
-    List<EventRegistrationEntity> findByEventId(String eventId);
+    List<AlarmsRegistrationEntity> findByAlarmId(String alarmId);
 
-    long countByEventId(String eventId);
+    long countByAlarmId(String alarmId);
 
-    boolean existsByEventIdAndUserId(String eventId, String userId);
+    boolean existsByAlarmIdAndUserId(String alarmId, String userId);
 
-    void deleteByEventIdAndUserId(String eventId, String userId);
+    void deleteByAlarmIdAndUserId(String alarmId, String userId);
 
-    Optional<EventRegistrationEntity> findByEventIdAndUserId(String eventId, String userId);
+    Optional<AlarmsRegistrationEntity> findByAlarmIdAndUserId(String alarmId, String userId);
+
+    void deleteByAlarmId(String id);
+
+
 }

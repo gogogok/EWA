@@ -1,4 +1,4 @@
-package com.example.EWA_backend.events;
+package com.example.EWA_backend.events.eventsRegistration;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +14,8 @@ public interface EventRegistrationRepository extends JpaRepository<EventRegistra
     long countByEventId(String eventId);
 
     boolean existsByEventIdAndUserId(String eventId, String userId);
+
+    void deleteByEventIdAndUserId(String eventId, String userId);
 
     Optional<EventRegistrationEntity> findByEventIdAndUserId(String eventId, String userId);
 }

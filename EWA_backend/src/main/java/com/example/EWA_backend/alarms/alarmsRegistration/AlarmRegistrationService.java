@@ -1,9 +1,8 @@
-package com.example.EWA_backend.events.eventsRegistration;
+package com.example.EWA_backend.alarms.alarmsRegistration;
 
-import com.example.EWA_backend.events.EventEntity;
-import com.example.EWA_backend.events.EventRepository;
-import com.example.EWA_backend.events.EventResponse;
-import com.example.EWA_backend.events.EventService;
+import com.example.EWA_backend.alarms.AlarmRepository;
+import com.example.EWA_backend.alarms.AlarmResponse;
+import com.example.EWA_backend.alarms.AlarmService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,60 +10,63 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class EventRegistrationService {
+public class AlarmRegistrationService {
 
-    private final EventRegistrationRepository eventRegistrationRepository;
-    private final EventService eventService;
+    private final AlarmRegistrationRepository alarmRegistrationRepository;
+    private final AlarmService alarmService;
+    private final AlarmRepository alarmRepository;
 
-    public EventRegistrationService(EventRegistrationRepository eventRegistrationRepository, EventService eventService) {
-        this.eventRegistrationRepository = eventRegistrationRepository;
-        this.eventService = eventService;
+    public AlarmRegistrationService(AlarmRegistrationRepository alarmRegistrationRepository, AlarmService alarmService, AlarmRepository alarmRepository) {
+        this.alarmRegistrationRepository = alarmRegistrationRepository;
+        this.alarmService = alarmService;
+        this.alarmRepository = alarmRepository;
     }
 
-    public void registerUserToEvent(String eventId, String userId) {
-        boolean alreadyExists = eventRegistrationRepository.existsByEventIdAndUserId(eventId, userId);
+    public void createRegistrationToAlarm(String alarmId, String userId , String status) {
+        boolean alreadyExists = alarmRegistrationRepository.existsByAlarmIdAndUserId(alarmId, userId);
 
         if (alreadyExists) {
             throw new RuntimeException("User already registered for this event");
         }
 
-        EventRegistrationEntity registration = new EventRegistrationEntity();
+        AlarmsRegistrationEntity registration = new AlarmsRegistrationEntity();
         registration.setId(UUID.randomUUID().toString());
-        registration.setEventId(eventId);
+        registration.setAlarmId(alarmId);
         registration.setUserId(userId);
+        registration.setStatus(status);
 
-        eventRegistrationRepository.save(registration);
+        alarmRegistrationRepository.save(registration);
     }
 
-    public long getResponsesCount(String eventId) {
-        return eventRegistrationRepository.countByEventId(eventId);
+    public long getResponsesCount(String alarmId) {
+        return alarmRegistrationRepository.countByAlarmId(alarmId);
     }
 
-    public List<EventResponse> getEventsByUserId(String userId) {
-        List<EventRegistrationEntity> eventsRegistrations = eventRegistrationRepository.findByUserId(userId);
-        List<EventResponse> eventsDto = new ArrayList<>();
-        for (EventRegistrationEntity eventReg : eventsRegistrations) {
-            eventsDto.add(eventService.getEventById(eventReg.getEventId()));
+    public List<AlarmResponse> getAlarmsByUserId(String userId) {
+        List<AlarmsRegistrationEntity> alarmRegistrations = alarmRegistrationRepository.findByUserId(userId);
+        List<AlarmResponse> alarmsDto = new ArrayList<>();
+        for (AlarmsRegistrationEntity alarmReg : alarmRegistrations) {
+            alarmsDto.add(alarmService.getAlarmById(alarmReg.getAlarmId()));
         }
-        return eventsDto;
+        return alarmsDto;
     }
 
-    public void leaveEvent(String eventId, String userId) {
+    public void leaveAlarm(String alarmId, String userId) {
 
-        EventRegistrationEntity registration = eventRegistrationRepository
-                .findByEventIdAndUserId(eventId, userId)
+        AlarmsRegistrationEntity registration = alarmRegistrationRepository
+                .findByAlarmIdAndUserId(alarmId, userId)
                 .orElseThrow(() -> new RuntimeException("User is not registered for this event"));
 
-        eventRegistrationRepository.delete(registration);
+        alarmRegistrationRepository.delete(registration);
     }
 
-    public void deleteEvent(String eventId, String userId) {
-        EventResponse event = eventService.getEventById(eventId);
-        if (!event.getUserId().equals(userId)) {
+    public void deleteAlarm(String alarmId, String userId) {
+        AlarmResponse alarm = alarmService.getAlarmById(alarmId);
+        if (!alarm.getUserId().equals(userId)) {
             throw new RuntimeException("Only creator can delete this event");
         }
 
-        eventRegistrationRepository.deleteById(event.getId());
-        eventService.deleteEvent(event.getId());
+        alarmRegistrationRepository.deleteById(alarm.getId());
+        alarmService.deleteAlarm(alarm.getId());
     }
 }

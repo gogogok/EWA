@@ -10,7 +10,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserResponse getUserById(Long id) {
+    public UserResponse getUserById(String id) {
 
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -20,6 +20,34 @@ public class UserService {
                 user.getName(),
                 user.getIconName(),
                 user.getEmail()
+        );
+    }
+
+    public void addUser(UserResponse request) {
+        UserEntity user = new UserEntity();
+        user.setId(request.getId());
+        user.setName(request.getName());
+        user.setIconName(request.getIconName());
+        user.setEmail(request.getEmail());
+        userRepository.save(user);
+    }
+
+    public UserResponse updateUser(UserResponse request) {
+
+        UserEntity user = userRepository.findById(request.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setName(request.getName());
+        user.setIconName(request.getIconName());
+        user.setEmail(request.getEmail());
+
+        UserEntity updatedUser = userRepository.save(user);
+
+        return new UserResponse(
+                updatedUser.getId(),
+                updatedUser.getName(),
+                updatedUser.getIconName(),
+                updatedUser.getEmail()
         );
     }
 

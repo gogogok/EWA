@@ -2,7 +2,7 @@ package com.example.EWA_backend.users;
 
 public class UserResponse {
 
-    private Long id;
+    private String id;
     private String name;
     private String iconName;
     private String email;
@@ -10,18 +10,18 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String name, String iconName, String email) {
+    public UserResponse(String id, String name, String iconName, String email) {
         this.id = id;
         this.name = name;
         this.iconName = iconName;
         this.email = email;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

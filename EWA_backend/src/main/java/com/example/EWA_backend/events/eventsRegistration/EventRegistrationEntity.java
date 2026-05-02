@@ -1,6 +1,5 @@
-package com.example.EWA_backend.events;
+package com.example.EWA_backend.events.eventsRegistration;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
