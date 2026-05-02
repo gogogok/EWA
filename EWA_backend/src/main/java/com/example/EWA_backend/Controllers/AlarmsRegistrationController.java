@@ -22,9 +22,9 @@ public class AlarmsRegistrationController {
         return alarmRegistrationService.getAlarmsByUserId(userId);
     }
 
-    @PostMapping("/addToAlarm/{alarmId}/{userId}")
-    public Map<String, String> addAlarmRegistration(@PathVariable String alarmId, @PathVariable String userId) {
-        alarmRegistrationService.createRegistrationToAlarm(alarmId, userId);
+    @PostMapping("/addToAlarm/{alarmId}/{userId}/{status}")
+    public Map<String, String> addAlarmRegistration(@PathVariable String alarmId, @PathVariable String userId, @PathVariable String status) {
+        alarmRegistrationService.createRegistrationToAlarm(alarmId, userId, status);
         return Map.of("status", "ok");
     }
 
