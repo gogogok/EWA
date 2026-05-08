@@ -18,16 +18,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
+//        if let user = Auth.auth().currentUser {
+//            user.delete { error in
+//                if let error = error {
+//                    print("Ошибка удаления: \(error)")
+//                } else {
+//                    print("Пользователь удалён")
+//                }
+//            }
+//        }
         let rootVC = TabScreenAssembly.build()
         let window = UIWindow(windowScene: windowScene)
         
-        //это потом удалить
-        let uid = "1"
-        let email = "test@test.com"
-        let worker = UserProfileManager()
-        worker.signIn(id: uid, email: email)
-//        let navC = UINavigationController(rootViewController: rootVC)
-//        window.rootViewController = navC
+        let navC = UINavigationController(rootViewController: rootVC)
+        window.rootViewController = navC
         
         window.rootViewController = rootVC
         
@@ -49,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        guard let email = UserDefaults.standard.string(forKey: "EmailForSignIn") else {
+        guard let email = UserDefaults.standard.string(forKey: UserDefaultsKeys.email) else {
             print("No saved email — ask user to re-enter email")
             return
         }
@@ -60,22 +64,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 return
             }
             guard let result else { return }
+            
             let isNew = result.additionalUserInfo?.isNewUser ?? false
             
             guard let windowScene = (scene as? UIWindowScene) else { return }
             let window = UIWindow(windowScene: windowScene)
             
+            var draft = RegistrationUserDraft()
+            draft.email = email
+            
             if isNew {
-                let rootVC = SignUpAssembly.build()
+                
+                //сохранение первичных данных о пользователе
+                let uid = Auth.auth().currentUser!.uid
+                UserDefaults.standard.set(uid, forKey: UserDefaultsKeys.id)
+                
+                draft.id = uid
+                
+                let rootVC = SignUpAssembly.build() as! NewUserNameRegistrationViewController
+                rootVC.draft = draft
                 let navC = UINavigationController(rootViewController: rootVC)
                 window.rootViewController = navC
                 self.window = window
                 window.makeKeyAndVisible()
-                
-                //сохранение первичных данных о пользователе
-                let uid = Auth.auth().currentUser!.uid
-                let worker = UserProfileManager()
-                worker.signIn(id: uid, email: email)
                 
             } else {
                 let rootVC = TabScreenAssembly.build()

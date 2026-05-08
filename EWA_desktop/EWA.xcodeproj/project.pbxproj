@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F70528212F27A79F00E88CE9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F70528202F27A79F00E88CE9 /* FirebaseAuth */; };
 		F70528232F27A79F00E88CE9 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F70528222F27A79F00E88CE9 /* FirebaseAuthCombine-Community */; };
+		F7A7DDFA2FAB54680022EBAB /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = F7A7DDF92FAB54680022EBAB /* Starscream */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			files = (
 				F70528212F27A79F00E88CE9 /* FirebaseAuth in Frameworks */,
 				F70528232F27A79F00E88CE9 /* FirebaseAuthCombine-Community in Frameworks */,
+				F7A7DDFA2FAB54680022EBAB /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				F70528202F27A79F00E88CE9 /* FirebaseAuth */,
 				F70528222F27A79F00E88CE9 /* FirebaseAuthCombine-Community */,
+				F7A7DDF92FAB54680022EBAB /* Starscream */,
 			);
 			productName = EWA;
 			productReference = F760B49A2F2620C900BA2282 /* EWA.app */;
@@ -118,6 +121,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F705281F2F27A79F00E88CE9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F7A7DDF82FAB54680022EBAB /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F760B49B2F2620C900BA2282 /* Products */;
@@ -366,6 +370,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		F7A7DDF82FAB54680022EBAB /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.8;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -378,6 +390,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F705281F2F27A79F00E88CE9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseAuthCombine-Community";
+		};
+		F7A7DDF92FAB54680022EBAB /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F7A7DDF82FAB54680022EBAB /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

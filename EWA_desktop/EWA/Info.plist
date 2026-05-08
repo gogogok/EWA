@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Приложению нужен доступ к локальной сети для подключения к локальному серверу разработки.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>Приложению нужно разрешение, чтобы ставить будильники для совместного пробуждения</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -19,6 +28,11 @@
 	<array>
 		<string>YanoneKaffeesatz.ttf</string>
 		<string>RubikMonoOne-Regular.ttf</string>
+		<string>Tinos-Regular.ttf</string>
+		<string>Tinos-Italic.ttf</string>
+		<string>Tinos-Bold.ttf</string>
+		<string>Tinos-BoldItalic.ttf</string>
+		<string>PressStart2P-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

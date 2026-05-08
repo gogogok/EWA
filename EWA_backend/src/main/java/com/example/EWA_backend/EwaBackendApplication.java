@@ -2,12 +2,12 @@ package com.example.EWA_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
+@EnableScheduling
 public class EwaBackendApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(EwaBackendApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(EwaBackendApplication.class, args);
+    }
 }
