@@ -7,7 +7,7 @@ class TabScreensController: UITabBarController {
     
     //MARK: - Constants
     private enum Constants {
-        static let selectedIndex: Int = 4
+        static let selectedIndex: Int = 2
         static let fatalError: String = "Ошибка создания"
     }
     
@@ -22,9 +22,9 @@ class TabScreensController: UITabBarController {
         
         viewControllers = [
             UINavigationController(rootViewController: SettingsMainScreenAssembly.build()),
-            UINavigationController(rootViewController: SetIconsAssembly.build()),
+            UINavigationController(rootViewController: AlarmFirstMainScreenAssembly.build()),
             UINavigationController(rootViewController: HomeScreenAssembly.build()),
-            UINavigationController(rootViewController: SignUpAssembly.build()),
+            UINavigationController(rootViewController: StudyMainScreenAssembly.build()),
             UINavigationController(rootViewController: AdventureMainScreenAssembly.build())
         ]
         

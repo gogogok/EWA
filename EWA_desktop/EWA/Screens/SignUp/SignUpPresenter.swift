@@ -12,6 +12,6 @@ final class SignUpPresenter : SignUpPresentationLogic  {
     var newUserView: NewUserNameRegistrationViewController?
     
     func presentIconRegistration(_ response: Model.LoadSignUpModel.Response){
-        newUserView?.displayIconRegistrationScreen(Model.LoadSignUpModel.ViewModel(viewController: response.viewController))
+        newUserView?.displayIconRegistrationScreen(Model.LoadSignUpModel.ViewModel(viewController: response.viewController, draft: response.draft))
     }
 }

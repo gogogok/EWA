@@ -42,9 +42,15 @@ final class StudyCardCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with model: AlarmCardView.Model, _ needNumb: Bool = false) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        onJoinTap = nil
+        onCardTap = nil
+    }
+    
+    func configure(with model: StudyCardView.Model) {
         
-        cardView.configure(with: model, needNumb)
+        cardView.configure(with: model)
     }
     
     

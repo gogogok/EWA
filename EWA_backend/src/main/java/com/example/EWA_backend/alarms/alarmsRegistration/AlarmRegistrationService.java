@@ -3,6 +3,7 @@ package com.example.EWA_backend.alarms.alarmsRegistration;
 import com.example.EWA_backend.alarms.AlarmRepository;
 import com.example.EWA_backend.alarms.AlarmResponse;
 import com.example.EWA_backend.alarms.AlarmService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,11 +23,12 @@ public class AlarmRegistrationService {
         this.alarmRepository = alarmRepository;
     }
 
-    public void createRegistrationToAlarm(String alarmId, String userId , String status) {
-        boolean alreadyExists = alarmRegistrationRepository.existsByAlarmIdAndUserId(alarmId, userId);
+    public AlarmResponse joinAlarm(String alarmId, String userId, String status) {
+        boolean alreadyExists =
+                alarmRegistrationRepository.existsByAlarmIdAndUserId(alarmId, userId);
 
         if (alreadyExists) {
-            throw new RuntimeException("User already registered for this event");
+            return alarmService.getAlarmById(alarmId);
         }
 
         AlarmsRegistrationEntity registration = new AlarmsRegistrationEntity();
@@ -36,21 +38,37 @@ public class AlarmRegistrationService {
         registration.setStatus(status);
 
         alarmRegistrationRepository.save(registration);
+
+        return alarmService.getAlarmById(alarmId);
     }
+
 
     public long getResponsesCount(String alarmId) {
         return alarmRegistrationRepository.countByAlarmId(alarmId);
     }
 
     public List<AlarmResponse> getAlarmsByUserId(String userId) {
-        List<AlarmsRegistrationEntity> alarmRegistrations = alarmRegistrationRepository.findByUserId(userId);
+
+        List<AlarmsRegistrationEntity> alarmRegistrations =
+                alarmRegistrationRepository.findByUserId(userId);
+
         List<AlarmResponse> alarmsDto = new ArrayList<>();
+
         for (AlarmsRegistrationEntity alarmReg : alarmRegistrations) {
-            alarmsDto.add(alarmService.getAlarmById(alarmReg.getAlarmId()));
+
+            if ("SCHEDULED".equals(alarmReg.getStatus())) {
+                continue;
+            }
+
+            alarmsDto.add(
+                    alarmService.getAlarmById(alarmReg.getAlarmId())
+            );
         }
+
         return alarmsDto;
     }
 
+    @Transactional
     public void leaveAlarm(String alarmId, String userId) {
 
         AlarmsRegistrationEntity registration = alarmRegistrationRepository
@@ -60,13 +78,14 @@ public class AlarmRegistrationService {
         alarmRegistrationRepository.delete(registration);
     }
 
+    @Transactional
     public void deleteAlarm(String alarmId, String userId) {
         AlarmResponse alarm = alarmService.getAlarmById(alarmId);
         if (!alarm.getUserId().equals(userId)) {
             throw new RuntimeException("Only creator can delete this event");
         }
 
-        alarmRegistrationRepository.deleteById(alarm.getId());
+        alarmRegistrationRepository.deleteByAlarmId(alarm.getId());
         alarmService.deleteAlarm(alarm.getId());
     }
 }

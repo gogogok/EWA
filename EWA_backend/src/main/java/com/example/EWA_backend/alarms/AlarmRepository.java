@@ -1,8 +1,10 @@
 package com.example.EWA_backend.alarms;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -39,4 +41,12 @@ AND NOT EXISTS (
             LocalDate date,
             Pageable pageable
     );
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+        DELETE FROM alarms
+        WHERE (date + time) < NOW()
+        """, nativeQuery = true)
+    void deleteExpiredAlarms();
 }

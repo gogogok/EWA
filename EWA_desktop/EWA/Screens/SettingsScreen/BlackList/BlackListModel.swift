@@ -2,10 +2,16 @@ import UIKit
 
 final class  BlackListModel {
     
-    enum LoadBlackList {
-        struct Request {}
-        struct Response {}
-        struct ViewModel {}
+    enum DeleteFromBlackList {
+        struct Request {
+            let userId: String
+        }
+        struct Response {
+            var error: String?
+        }
+        struct ViewModel {
+            var error: String?
+        }
     }
 
 }

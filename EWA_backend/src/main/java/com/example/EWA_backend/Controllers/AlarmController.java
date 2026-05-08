@@ -20,10 +20,10 @@ public class AlarmController {
     }
 
     @PostMapping("/add")
-    public Map<String, String> addUser(@RequestBody AlarmResponse request) {
-        alarmService.addAlarm(request);
-        alarmRegistrationService.createRegistrationToAlarm(request.getId(), request.getUserId(), "SCHEDULED");
-        return Map.of("status", "ok");
+    public AlarmResponse addAlarm(@RequestBody AlarmResponse request) {
+        AlarmResponse alarm = alarmService.addAlarm(request);
+        alarmRegistrationService.joinAlarm(request.getId(), request.getUserId(), "SCHEDULED");
+        return alarm;
     }
 
     @GetMapping()

@@ -6,8 +6,8 @@
 //
 import Foundation
 
-struct UserResponse: Decodable {
-    let id: Int
+struct UserResponse: Encodable, Decodable {
+    let id: String
     let name: String
     let email: String
     let iconName: String

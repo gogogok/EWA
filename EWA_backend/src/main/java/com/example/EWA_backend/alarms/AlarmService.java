@@ -1,6 +1,7 @@
 package com.example.EWA_backend.alarms;
 
 import com.example.EWA_backend.alarms.alarmsRegistration.AlarmRegistrationRepository;
+import com.example.EWA_backend.alarms.alarmsRegistration.AlarmsRegistrationEntity;
 import com.example.EWA_backend.users.UserResponse;
 import com.example.EWA_backend.users.UserService;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AlarmService {
@@ -81,7 +83,7 @@ public class AlarmService {
         return alarmsDto;
     }
 
-    public void addAlarm(AlarmResponse request) {
+    public AlarmResponse addAlarm(AlarmResponse request) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         AlarmEntity alarm = new AlarmEntity();
         alarm.setId(request.getId());
@@ -94,6 +96,7 @@ public class AlarmService {
         alarm.setTime(LocalTime.parse(request.getTime()));
         alarm.setCountPart(request.getCountPart());
         alarmRepository.save(alarm);
+        return toResponse(alarm);
     }
 
     public void deleteAlarm(String id)

@@ -1,15 +1,10 @@
-//
-//  GradientActionButton.swift
-//  EWA
-//
-//  Created by Дарья Жданок on 10.04.26.
-//
 import UIKit
 
 final class GradientActionButton: UIButton {
     
-    private let iconImageView = UIImageView()
     private let gradientLayer = CAGradientLayer()
+    private let iconImageView = UIImageView()
+    let customTitleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,39 +28,38 @@ final class GradientActionButton: UIButton {
         layer.cornerRadius = 10
         layer.masksToBounds = true
         
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.contentMode = .scaleAspectFit
+        iconImageView.tintColor = .black
         addSubview(iconImageView)
         
-        titleLabel?.numberOfLines = 2
-        titleLabel?.font = UIFont(name: "Tinos-Bold", size: 15)
-        titleLabel?.textAlignment = .center
+        customTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        customTitleLabel.numberOfLines = 2
+        customTitleLabel.textAlignment = .center
+        customTitleLabel.textColor = .black
+        customTitleLabel.font = UIFont(name: "Tinos-Bold", size: 15)
+        addSubview(customTitleLabel)
         
-        setTitleColor(.black, for: .normal)
-        contentHorizontalAlignment = .center
+        NSLayoutConstraint.activate([
+            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            iconImageView.widthAnchor.constraint(equalToConstant: 35),
+            iconImageView.heightAnchor.constraint(equalToConstant: 35),
+            
+            customTitleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
+            customTitleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            customTitleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            customTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+        ])
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
-        
-        iconImageView.frame = CGRect(
-            x: 8,
-            y: bounds.height * 0.2,
-            width: bounds.height,
-            height: bounds.height
-        )
-        
-        
-        titleEdgeInsets = UIEdgeInsets(
-            top: 0,
-            left: iconImageView.frame.maxX + 2,
-            bottom: 0,
-            right: 0
-        )
     }
     
     func configure(title: String, image: UIImage?) {
-        setTitle(title, for: .normal)
-        iconImageView.image = image
+        customTitleLabel.text = title
+        iconImageView.image = image?.withRenderingMode(.alwaysTemplate)
     }
 }

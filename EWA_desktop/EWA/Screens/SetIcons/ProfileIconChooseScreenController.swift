@@ -74,7 +74,9 @@ class ProfileIconChooseScreenController : UIViewController {
     //MARK: - Fields
     
     var interactor : SetIconBusinessLogic
+    var draft : RegistrationUserDraft?
     var indexChosen = 2
+    var edition: Bool = false
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -121,7 +123,6 @@ class ProfileIconChooseScreenController : UIViewController {
     private lazy var squirrel = makeAvatarImageView(named: "squirrel")
     private lazy var wolf = makeAvatarImageView(named: "wolf")
     private lazy var crow = makeAvatarImageView(named: "crow")
-    
 
     
     let customBackButton = UIButton(type: .system)
@@ -148,8 +149,9 @@ class ProfileIconChooseScreenController : UIViewController {
     }
     
     //MARK: - Lyfecycle
-    init(interactor: SetIconBusinessLogic) {
+    init(interactor: SetIconBusinessLogic, edition: Bool) {
         self.interactor = interactor
+        self.edition = edition
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -310,26 +312,36 @@ class ProfileIconChooseScreenController : UIViewController {
     @objc
     private func doneButtonTapped() {
         let tabBar = TabScreenAssembly.build()
-        interactor.loadMainScreen(Model.LoadSetIconsModel.Request(viewController: tabBar, iconName: selectedIcon, indexChosen: indexChosen))
+        if (!edition) {
+            interactor.loadMainScreen(Model.LoadSetIconsModel.Request(viewController: tabBar, iconName: selectedIcon, indexChosen: indexChosen, draft: draft!))
+        } else {
+            interactor.loadMainScreenAfterEdit(Model.LoadSetIconsModel.Request(viewController: tabBar, iconName: selectedIcon, indexChosen: indexChosen, draft: draft!))
+        }
     }
     
     //MARK: - display func
     
-    public func displayMainScreen( _ vm: Model.LoadSetIconsModel.ViewModel) {
+    public func displayMainScreen(_ vm: Model.LoadSetIconsModel.ViewModel) {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else { return }
-        
-        let vc = vm.viewController as! TabScreensController
+
+        guard let vc = vm.viewController as? TabScreensController else { return }
+
         vc.selectedIndex = vm.indexChosen
-        window.rootViewController = vc
-        window.makeKeyAndVisible()
-        
-        UIView.transition(
-            with: window,
-            duration: 0.25,
-            options: .transitionCrossDissolve,
-            animations: nil
-        )
+
+        DispatchQueue.main.async {
+            window.endEditing(true)
+
+            UIView.transition(
+                with: window,
+                duration: 0.25,
+                options: .transitionCrossDissolve,
+                animations: {
+                    window.rootViewController = vc
+                },
+                completion: nil
+            )
+        }
     }
     
     //MARK: - Help func

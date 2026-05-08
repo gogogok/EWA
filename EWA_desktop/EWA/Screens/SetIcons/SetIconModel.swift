@@ -14,6 +14,7 @@ final class SetIconsModel {
             var viewController: UIViewController
             var iconName: String
             var indexChosen: Int
+            var draft: RegistrationUserDraft
         }
         struct Response {
             var viewController: UIViewController

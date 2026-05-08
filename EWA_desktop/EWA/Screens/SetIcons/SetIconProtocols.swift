@@ -12,6 +12,8 @@ protocol SetIconBusinessLogic {
     typealias Model = SetIconsModel
     
     func loadMainScreen(_ request: Model.LoadSetIconsModel.Request)
+    
+    func loadMainScreenAfterEdit(_ request: Model.LoadSetIconsModel.Request)
 }
 
 protocol SetIconPresentationLogic {

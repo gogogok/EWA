@@ -78,6 +78,19 @@ class RegistrationViewController: UIViewController {
         gradientLayer.frame = emailTextField.bounds
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        Task {
+            let allowed = await AlarmPermissionManager.shared.requestPermission()
+
+            guard allowed else {
+                await AlarmPermissionManager.shared.showDeniedAlert(from: self)
+                return
+            }
+        }
+    }
+    
     //MARK: - Lyfecycle
     init(interactor: RegistrationBusinessLogic) {
         self.interactor = interactor
@@ -151,6 +164,7 @@ class RegistrationViewController: UIViewController {
     
     private func configureDoneButton() {
         view.addSubview(doneButton)
+        
         doneButton.setTitle(Constants.doneButtonText, for: .normal)
         doneButton.titleLabel?.textAlignment = .center
         doneButton.setTitleColor(.black, for: .normal)

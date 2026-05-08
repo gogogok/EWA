@@ -48,7 +48,6 @@ final class ProfileSettingsViewController: UIViewController {
     //MARK: - Fields
     
     var interactor : ProfileSettingsBusinessLogic
-    let userWorker = UserProfileManager()
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -94,10 +93,8 @@ final class ProfileSettingsViewController: UIViewController {
     }
     
     private func getData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let userInfo = userWorker.fetchById(id: uid)
-        name = userInfo?.name ?? "Профиль"
-        iconName = userInfo?.iconName ?? "fox"
+        name = UserDefaults.standard.string(forKey: UserDefaultsKeys.username) ?? "Профиль"
+        iconName = UserDefaults.standard.string(forKey: UserDefaultsKeys.iconName) ?? "fox"
         nameLabel.text = name
         avatarIcon.imageView.image = UIImage(named: iconName)
     }
@@ -150,7 +147,14 @@ final class ProfileSettingsViewController: UIViewController {
         avatarIcon.pinTop(to: customBackButton.bottomAnchor, -Constants.avatarTop)
         
         avatarIcon.onEditTap = { [weak self] in
-            let vc = SetIconsAssembly.build() as! ProfileIconChooseScreenController
+            let vc = SetIconsAssembly.build(edit: true) as! ProfileIconChooseScreenController
+            if vc.draft == nil {
+                vc.draft = RegistrationUserDraft()
+                vc.draft?.iconName = self?.avatarIcon.iconName
+                vc.draft?.name = self?.name
+                vc.draft?.id = UserDefaults.standard.string(forKey: UserDefaultsKeys.id)
+                vc.draft?.email =  UserDefaults.standard.string(forKey: UserDefaultsKeys.email)
+                }
             vc.indexChosen = 0
             self?.navigationController?.pushViewController(vc, animated: true)
         }

@@ -8,12 +8,13 @@
 import UIKit
 
 enum SetIconsAssembly {
-    static func build() -> UIViewController {
+    static func build(edit: Bool = false) -> UIViewController {
         var presenter: SetIconPresentationLogic = SetIconPresenter()
         let interactor: SetIconBusinessLogic = SetIconInteractor(presenter: presenter)
         
         let viewController: ProfileIconChooseScreenController = ProfileIconChooseScreenController(
-            interactor: interactor
+            interactor: interactor,
+            edition: edit
         )
 
         presenter.userViewIcons = viewController

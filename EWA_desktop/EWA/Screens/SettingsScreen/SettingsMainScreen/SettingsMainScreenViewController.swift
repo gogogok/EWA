@@ -60,7 +60,6 @@ final class SettingsMainScreenViewController: UIViewController {
     //MARK: - Fields
     
     var interactor : SettingsMainScreenBusinessLogic
-    let userWorker = UserProfileManager()
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -121,10 +120,8 @@ final class SettingsMainScreenViewController: UIViewController {
     }
     
     private func getData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let userInfo = userWorker.fetchById(id: uid)
-        name = userInfo?.name ?? "Профиль"
-        iconName = userInfo?.iconName ?? "fox"
+        name = UserDefaults.standard.string(forKey: UserDefaultsKeys.username) ?? "Профиль"
+        iconName = UserDefaults.standard.string(forKey: UserDefaultsKeys.iconName) ?? "fox"
         nameLabel.text = name
         avatarIcon.imageView.image = UIImage(named: iconName)
     }

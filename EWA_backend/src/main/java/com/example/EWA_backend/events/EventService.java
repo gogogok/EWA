@@ -87,7 +87,11 @@ public class EventService {
         event.setDescription(request.getDescription());
         event.setPlace(request.getPlace());
         event.setDate(LocalDate.parse(request.getDate(), formatter));
-        event.setTime(LocalTime.parse(request.getTime()));
+        if(!request.getTime().isEmpty()) {
+            event.setTime(LocalTime.parse(request.getTime()));
+        } else {
+            event.setTime(LocalTime.NOON);
+        }
         event.setComment(request.getComment());
         eventRepository.save(event);
     }

@@ -13,12 +13,15 @@ final class SignUpModel {
         struct Request {
             var viewController: UIViewController
             var name: String
+            var draft: RegistrationUserDraft?
         }
         struct Response {
             var viewController: UIViewController
+            var draft: RegistrationUserDraft
         }
         struct ViewModel {
             var viewController: UIViewController
+            var draft: RegistrationUserDraft
         }
     }
 }

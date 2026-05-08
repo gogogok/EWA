@@ -59,6 +59,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     //MARK: - Fields
     
     var interactor : SignUpBusinessLogic
+    var draft : RegistrationUserDraft?
     
     let background: UIImageView = {
         let label = UIImageView()
@@ -196,7 +197,7 @@ class NewUserNameRegistrationViewController: UIViewController {
     private func dispalaySecondRegistrationScreen() {
         let viewController = SetIconsAssembly.build() as! ProfileIconChooseScreenController
         viewController.indexChosen = 2
-        interactor.loadSecondRegistrationScreen(Model.LoadSignUpModel.Request(viewController: viewController, name: nameTextField.text!))
+        interactor.loadSecondRegistrationScreen(Model.LoadSignUpModel.Request(viewController: viewController, name: nameTextField.text!, draft: draft))
     }
     
     //MARK: - Help func
@@ -211,7 +212,9 @@ class NewUserNameRegistrationViewController: UIViewController {
     }
     
     func displayIconRegistrationScreen(_ viewModel: Model.LoadSignUpModel.ViewModel) {
-        navigationController?.pushViewController(viewModel.viewController, animated: true)
+        let vc = viewModel.viewController as! ProfileIconChooseScreenController
+        vc.draft = viewModel.draft
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

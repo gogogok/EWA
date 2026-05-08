@@ -6,12 +6,13 @@
 //
 import Foundation
 
-struct EventResponse: Decodable {
-    let id: Int
-    let userId: Int
+struct EventResponse: Decodable, Encodable {
+    let id: String
+    let userId: String
     let name: String
     let category: String
-    let dateTime: String
+    let date: String
+    let time: String
     let place: String
     let description: String
     let comment: String
