@@ -1,8 +1,6 @@
 package com.example.EWA_backend.Controllers;
 
-import com.example.EWA_backend.events.EventResponse;
-import com.example.EWA_backend.events.EventService;
-import com.example.EWA_backend.events.EventsPageResponse;
+import com.example.EWA_backend.events.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +11,11 @@ import java.util.Map;
 public class EventController {
 
     private final EventService eventService;
+    private final EventCleanupService eventCleanupService;
 
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService, EventCleanupService eventCleanupService) {
         this.eventService = eventService;
+        this.eventCleanupService = eventCleanupService;
     }
 
     @GetMapping("/{id}")
@@ -35,6 +35,7 @@ public class EventController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size
     ) {
+        eventCleanupService.deleteExpiredEvents();
         return eventService.getEvents(userId, page, size);
     }
 

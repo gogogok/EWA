@@ -125,8 +125,11 @@ public class AlarmService {
                     pageable
             );
         } else {
-            result = alarmRepository.findByDateAfter(
-                    today,
+            LocalDateTime threshold = LocalDateTime.now().plusMinutes(10);
+
+            result = alarmRepository.findAllAfterDateTime(
+                    threshold.toLocalDate(),
+                    threshold.toLocalTime(),
                     pageable
             );
         }

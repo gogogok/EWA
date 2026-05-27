@@ -22,7 +22,7 @@ public class AlarmController {
     @PostMapping("/add")
     public AlarmResponse addAlarm(@RequestBody AlarmResponse request) {
         AlarmResponse alarm = alarmService.addAlarm(request);
-        alarmRegistrationService.joinAlarm(request.getId(), request.getUserId(), "SCHEDULED");
+        alarmRegistrationService.joinAlarm(request.getId(), request.getUserId(), "scheduled");
         return alarm;
     }
 

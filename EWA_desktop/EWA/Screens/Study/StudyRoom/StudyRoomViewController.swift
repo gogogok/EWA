@@ -46,6 +46,8 @@ final class StudyRoomViewController: UIViewController {
     private var chatSocketManager: ChatWebSocketManager?
 
     private var messages: [ChatMessage] = []
+    
+    private var studyStartedAt: Date?
 
     private let chatContainerView = UIView()
     private let chatTitleLabel = UILabel()
@@ -92,6 +94,7 @@ final class StudyRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        studyStartedAt = Date()
         configureUI()
     }
     
@@ -304,6 +307,9 @@ final class StudyRoomViewController: UIViewController {
         }
 
         chatSocketManager?.send(text: text)
+        
+        AchievementsCounter().incrementMessagesSent()
+        
         messageTextField.text = ""
         messageTextField.resignFirstResponder()
     }
@@ -454,6 +460,8 @@ final class StudyRoomViewController: UIViewController {
     private func leaveRoomAndClose() {
         guard !didLeaveRoom else { return }
         didLeaveRoom = true
+        
+        trackStudyTimeIfNeeded()
 
         webSocketManager?.disconnect()
         chatSocketManager?.disconnect()
@@ -472,6 +480,15 @@ final class StudyRoomViewController: UIViewController {
                 self?.dismiss(animated: true)
             }
         }
+    }
+    
+    private func trackStudyTimeIfNeeded() {
+        guard let studyStartedAt else { return }
+
+        let seconds = Date().timeIntervalSince(studyStartedAt)
+        let minutes = Int(seconds / 60)
+
+        AchievementsCounter().updateStudyStreak(minutes: minutes)
     }
 }
 

@@ -12,8 +12,19 @@
 		F7A7DDFA2FAB54680022EBAB /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = F7A7DDF92FAB54680022EBAB /* Starscream */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F7AB7E082FB88B290056333B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F760B4922F2620C900BA2282 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F760B4992F2620C900BA2282;
+			remoteInfo = EWA;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		F760B49A2F2620C900BA2282 /* EWA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EWA.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7AB7E042FB88B290056333B /* EWATests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EWATests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -35,6 +46,11 @@
 			path = EWA;
 			sourceTree = "<group>";
 		};
+		F7AB7E052FB88B290056333B /* EWATests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EWATests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +64,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7AB7E012FB88B290056333B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				F760B49C2F2620C900BA2282 /* EWA */,
+				F7AB7E052FB88B290056333B /* EWATests */,
 				F760B49B2F2620C900BA2282 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				F760B49A2F2620C900BA2282 /* EWA.app */,
+				F7AB7E042FB88B290056333B /* EWATests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +120,29 @@
 			productReference = F760B49A2F2620C900BA2282 /* EWA.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F7AB7E032FB88B290056333B /* EWATests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7AB7E0C2FB88B290056333B /* Build configuration list for PBXNativeTarget "EWATests" */;
+			buildPhases = (
+				F7AB7E002FB88B290056333B /* Sources */,
+				F7AB7E012FB88B290056333B /* Frameworks */,
+				F7AB7E022FB88B290056333B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7AB7E092FB88B290056333B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F7AB7E052FB88B290056333B /* EWATests */,
+			);
+			name = EWATests;
+			packageProductDependencies = (
+			);
+			productName = EWATests;
+			productReference = F7AB7E042FB88B290056333B /* EWATests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -102,11 +150,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2600;
+				LastSwiftUpdateCheck = 2640;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					F760B4992F2620C900BA2282 = {
 						CreatedOnToolsVersion = 26.0.1;
+					};
+					F7AB7E032FB88B290056333B = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = F760B4992F2620C900BA2282;
 					};
 				};
 			};
@@ -129,12 +181,20 @@
 			projectRoot = "";
 			targets = (
 				F760B4992F2620C900BA2282 /* EWA */,
+				F7AB7E032FB88B290056333B /* EWATests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F760B4982F2620C900BA2282 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7AB7E022FB88B290056333B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -151,7 +211,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7AB7E002FB88B290056333B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F7AB7E092FB88B290056333B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F760B4992F2620C900BA2282 /* EWA */;
+			targetProxy = F7AB7E082FB88B290056333B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F760B4AE2F2620CA00BA2282 /* Debug */ = {
@@ -338,6 +413,50 @@
 			};
 			name = Release;
 		};
+		F7AB7E0A2FB88B290056333B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TKRB5649V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hse.EWATests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EWA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EWA";
+			};
+			name = Debug;
+		};
+		F7AB7E0B2FB88B290056333B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8TKRB5649V;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = hse.EWATests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EWA.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EWA";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -355,6 +474,15 @@
 			buildConfigurations = (
 				F760B4AE2F2620CA00BA2282 /* Debug */,
 				F760B4AF2F2620CA00BA2282 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7AB7E0C2FB88B290056333B /* Build configuration list for PBXNativeTarget "EWATests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7AB7E0A2FB88B290056333B /* Debug */,
+				F7AB7E0B2FB88B290056333B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

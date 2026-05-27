@@ -37,8 +37,14 @@ AND NOT EXISTS (
             Pageable pageable
     );
 
-    Page<AlarmEntity> findByDateAfter(
-            LocalDate date,
+    @Query("""
+SELECT a FROM AlarmEntity a
+WHERE a.date > :date
+   OR (a.date = :date AND a.time > :time)
+""")
+    Page<AlarmEntity> findAllAfterDateTime(
+            @Param("date") LocalDate date,
+            @Param("time") LocalTime time,
             Pageable pageable
     );
 

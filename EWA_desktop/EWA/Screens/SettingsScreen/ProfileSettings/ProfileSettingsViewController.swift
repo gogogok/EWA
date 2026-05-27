@@ -208,21 +208,35 @@ final class ProfileSettingsViewController: UIViewController {
     }
     
     //MARK: - Display func
-    public func displayMainScreen( _ vm: Model.LoadProfileSettings.ViewModel) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-        
-        let vc = vm.viewController as! TabScreensController
-        vc.selectedIndex = vm.indexChosen
-        window.rootViewController = vc
-        window.makeKeyAndVisible()
-        
-        UIView.transition(
-            with: window,
-            duration: 0.25,
-            options: .transitionCrossDissolve,
-            animations: nil
-        )
+    public func displayMainScreen(_ vm: Model.LoadProfileSettings.ViewModel) {
+        DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first(where: { $0.activationState == .foregroundActive }),
+                  let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+                print("❌ Не найдено активное окно")
+                return
+            }
+
+            guard let vc = vm.viewController as? TabScreensController else {
+                print("❌ vm.viewController не TabScreensController")
+                print("Фактически пришёл:", type(of: vm.viewController))
+                return
+            }
+
+            vc.selectedIndex = vm.indexChosen
+
+            UIView.transition(
+                with: window,
+                duration: 0.25,
+                options: .transitionCrossDissolve,
+                animations: {
+                    window.rootViewController = vc
+                    window.makeKeyAndVisible()
+                },
+                completion: nil
+            )
+        }
     }
     
 }

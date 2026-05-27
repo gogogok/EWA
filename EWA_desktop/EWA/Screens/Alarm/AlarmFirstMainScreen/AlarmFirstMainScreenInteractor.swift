@@ -39,14 +39,16 @@ final class AlarmFirstMainScreenInteractor : AlarmFirstMainScreenBusinessLogic{
     func registarUser(_ request: Model.RegisterUserToAlarm.Request) {
         Task {
             do {
-                let alarm = try await  alarmClient.addAlarmRegistration(alarmId: request.alarmId, userId: request.userId)
-                
+                let alarm = try await  alarmClient.addAlarmRegistration(alarmId: request.alarmId, userId: request.userId, stutus: "joined")
+                    
                 try await AppAlarmKitManager.shared.scheduleAlarm(from: alarm)
                 
                 presenter.presentRegisterUser(Model.RegisterUserToAlarm.Response(success: true, message: "Вы часть будильникао!"))
                 
+            } catch BackendError.message(let message) {
+                presenter.presentRegisterUser(Model.RegisterUserToAlarm.Response(success: false, message: message))
             } catch {
-                presenter.presentRegisterUser(Model.RegisterUserToAlarm.Response(success: false, message: "Произошла ошибка, попробуйте позже ещё раз"))
+                presenter.presentRegisterUser(Model.RegisterUserToAlarm.Response(success: false, message: error.localizedDescription))
             }
         }
     }

@@ -53,7 +53,7 @@ final class BlackListViewController: UIViewController {
     private var titleLabel : UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.text = "Участники"
+        label.text = "Чёрный список"
         label.font = UIFont(name: Constants.topFont, size: 30)
         return label
     }()
