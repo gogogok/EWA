@@ -271,9 +271,9 @@ extension MyAlarmsViewController: UICollectionViewDataSource, UICollectionViewDe
             alarm = registeredAlarms[indexPath.item]
             cell.configure(with: alarm, title: "Разбудить!")
             cell.cardView.isEditingMode = false
-            cell.onJoinTap = { [weak self] in
-                //разбудить
-            }
+//            cell.onJoinTap = { [weak self] in
+//                self?.interactor.leaveAlarm(Model.LoadLeaveAlarms(alarmId: alarm.id))
+//            }
             cell.onCardTap = { [weak self] in
                 let vc = AlarmDetailsAssembly.build(alarm: alarm)
                 vc.modalPresentationStyle = .overCurrentContext

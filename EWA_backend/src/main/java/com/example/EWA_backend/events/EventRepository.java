@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.List;
 
@@ -23,4 +25,12 @@ AND NOT EXISTS (
     Page<EventEntity> findAvailableEvents(@Param("userId") String userId, Pageable pageable);
 
     void delete(EventEntity event);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+    DELETE FROM events
+    WHERE (date + time) < NOW()
+    """, nativeQuery = true)
+    void deleteExpiredEvents();
 }

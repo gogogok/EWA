@@ -15,7 +15,7 @@ enum Environment {
         switch self {
         case .local:
             
-            return "http://192.168.0.61:10000"
+            return "http://localhost:10000"
         case .production:
             return "https://ewa-pk7o.onrender.com"
         }
@@ -24,7 +24,7 @@ enum Environment {
     var webSocketURL: String {
         switch self {
         case .local:
-            return "ws://192.168.0.61:10000/ws"
+            return "ws://localhost:10000/ws"
             
         case .production:
             return "wss://ewa-pk7o.onrender.com/ws"

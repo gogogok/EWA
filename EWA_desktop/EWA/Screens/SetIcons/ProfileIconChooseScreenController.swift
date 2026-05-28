@@ -322,14 +322,21 @@ class ProfileIconChooseScreenController : UIViewController {
     //MARK: - display func
     
     public func displayMainScreen(_ vm: Model.LoadSetIconsModel.ViewModel) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = windowScene.windows.first else { return }
-
-        guard let vc = vm.viewController as? TabScreensController else { return }
-
-        vc.selectedIndex = vm.indexChosen
-
         DispatchQueue.main.async {
+            guard let windowScene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first(where: { $0.activationState == .foregroundActive }),
+                  let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+                return
+            }
+
+            guard let vc = vm.viewController as? TabScreensController else {
+                print("vm.viewController не TabScreensController")
+                return
+            }
+
+            vc.selectedIndex = vm.indexChosen
+
             window.endEditing(true)
 
             UIView.transition(
@@ -338,6 +345,7 @@ class ProfileIconChooseScreenController : UIViewController {
                 options: .transitionCrossDissolve,
                 animations: {
                     window.rootViewController = vc
+                    window.makeKeyAndVisible()
                 },
                 completion: nil
             )

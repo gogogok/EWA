@@ -131,7 +131,7 @@ final class SettingsMainScreenViewController: UIViewController {
         configureBackgroudUI()
         configureAvatarIcon()
         configureNameLabel()
-        achivement = "Нет достижений"
+        achivement = UserDefaults.standard.string(forKey: UserDefaultsKeys.achiveStatus)
         configureAchivementLabel()
         configureButtons()
         configureActions()
@@ -243,9 +243,16 @@ final class SettingsMainScreenViewController: UIViewController {
     @objc
     private func achievementsTapped() {
         let vc = AchievementsAssembly.build()
+        if let achVC = vc as? AchievementsViewController {
+            achVC.onSelectAchievement = { [weak self] selectedText in
+                UserDefaults.standard.set(selectedText, forKey: UserDefaultsKeys.achiveStatus)
+                DispatchQueue.main.async {
+                    self?.achivementsLabel.text = selectedText
+                }
+            }
+        }
         vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true, completion: nil)
     }
 
 }
-

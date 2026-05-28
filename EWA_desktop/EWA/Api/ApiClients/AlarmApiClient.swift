@@ -10,6 +10,15 @@ struct AlarmsResponseStatus: Decodable {
     let status: String
 }
 
+struct BackendErrorResponse: Decodable {
+    let message: String
+}
+
+enum BackendError: Error {
+    case message(String)
+    case badServerResponse
+}
+
 final class AlarmApiClient {
     
     static let shared = AlarmApiClient()
@@ -111,12 +120,17 @@ final class AlarmApiClient {
         return decoded
     }
     
-    func addAlarmRegistration(alarmId: String, userId: String?) async throws -> AlarmResponse{
+    func addAlarmRegistration(
+        alarmId: String,
+        userId: String?,
+        stutus: String
+    ) async throws -> AlarmResponse {
         
         guard let userId else {
             throw URLError(.badURL)
         }
-        guard let url = URL(string: baseURL + "/api/alarmsregistration/addToAlarm/\(alarmId)/\(userId)") else {
+        
+        guard let url = URL(string: baseURL + "/api/alarmsregistration/addToAlarm/\(alarmId)/\(userId)/\(stutus)") else {
             throw URLError(.badURL)
         }
         
@@ -126,10 +140,25 @@ final class AlarmApiClient {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
+        guard let http = response as? HTTPURLResponse else {
+            throw BackendError.badServerResponse
+        }
         
-        guard let http = response as? HTTPURLResponse,
-              200..<300 ~= http.statusCode else {
-            throw URLError(.badServerResponse)
+        print("STATUS CODE:", http.statusCode)
+        
+        if let body = String(data: data, encoding: .utf8) {
+            print("BODY:", body)
+        }
+        
+        guard 200..<300 ~= http.statusCode else {
+            let backendError = try? JSONDecoder().decode(
+                BackendErrorResponse.self,
+                from: data
+            )
+            
+            throw BackendError.message(
+                backendError?.message ?? "Ошибка сервера: \(http.statusCode)"
+            )
         }
         
         return try JSONDecoder().decode(AlarmResponse.self, from: data)

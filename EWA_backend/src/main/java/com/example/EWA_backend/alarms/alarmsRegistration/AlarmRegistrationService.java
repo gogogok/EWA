@@ -1,5 +1,6 @@
 package com.example.EWA_backend.alarms.alarmsRegistration;
 
+import com.example.EWA_backend.alarms.AlarmRegistrationException;
 import com.example.EWA_backend.alarms.AlarmRepository;
 import com.example.EWA_backend.alarms.AlarmResponse;
 import com.example.EWA_backend.alarms.AlarmService;
@@ -28,7 +29,9 @@ public class AlarmRegistrationService {
                 alarmRegistrationRepository.existsByAlarmIdAndUserId(alarmId, userId);
 
         if (alreadyExists) {
-            return alarmService.getAlarmById(alarmId);
+            throw new AlarmRegistrationException(
+                    "Нельзя зарегистрироваться второй раз или на собственный будильник!"
+            );
         }
 
         AlarmsRegistrationEntity registration = new AlarmsRegistrationEntity();
@@ -56,7 +59,7 @@ public class AlarmRegistrationService {
 
         for (AlarmsRegistrationEntity alarmReg : alarmRegistrations) {
 
-            if ("SCHEDULED".equals(alarmReg.getStatus())) {
+            if ("scheduled".equalsIgnoreCase(alarmReg.getStatus())) {
                 continue;
             }
 

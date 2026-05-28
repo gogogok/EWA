@@ -23,9 +23,9 @@ public class AlarmsRegistrationController {
     }
 
     @PostMapping("/addToAlarm/{alarmId}/{userId}/{status}")
-    public Map<String, String> addAlarmRegistration(@PathVariable String alarmId, @PathVariable String userId, @PathVariable String status) {
-        alarmRegistrationService.joinAlarm(alarmId, userId, status);
-        return Map.of("status", "ok");
+    public AlarmResponse addAlarmRegistration(@PathVariable String alarmId, @PathVariable String userId, @PathVariable String status) {
+        AlarmResponse al = alarmRegistrationService.joinAlarm(alarmId, userId, status);
+        return al;
     }
 
     @DeleteMapping("/{userId}/{alarmId}/leave")

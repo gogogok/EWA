@@ -39,6 +39,7 @@ final class AdventureMainScreenInteractor : AdventureMainScreenBusinessLogic{
             do {
                 guard let userId = UserDefaults.standard.string(forKey: UserDefaultsKeys.id) else {return}
                 let response = try await eventClient.addEventRegistration(eventId: request.eventId, userId: userId)
+                AchievementsCounter().incrementEventsParticipated()
                 presenter.presentRegisterUser(
                     AdventureMainScreenModel.RegisterUserToEvent.Response(success: true, message: "Регистрация прошла успешно"))
             } catch {

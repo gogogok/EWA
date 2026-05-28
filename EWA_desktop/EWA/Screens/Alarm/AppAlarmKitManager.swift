@@ -20,11 +20,7 @@ final class AppAlarmKitManager {
     private init() {}
 
     func scheduleAlarm(from alarm: AlarmResponse) async throws {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.yyyy HH:mm"
-        formatter.locale = Locale(identifier: "ru_RU")
-
-        guard let date = formatter.date(from: "\(alarm.date) \(alarm.time)") else {
+        guard let baseDate = self.parseAlarmDate(date: alarm.date, time: alarm.time) else {
             throw NSError(
                 domain: "EWA.InvalidDate",
                 code: 0,
@@ -32,17 +28,21 @@ final class AppAlarmKitManager {
             )
         }
 
-        let alarmId = UUID(uuidString: alarm.id) ?? UUID()
+        guard baseDate > Date() else {
+            throw NSError(
+                domain: "EWA.InvalidDate",
+                code: 1,
+                userInfo: [NSLocalizedDescriptionKey: "Alarm date is in the past"]
+            )
+        }
 
-        let schedule = Alarm.Schedule.fixed(date)
+        let alarmTitle = LocalizedStringResource(stringLiteral: alarm.description)
 
         let stopButton = AlarmButton(
             text: "Остановить",
             textColor: .white,
             systemImageName: "stop.circle"
         )
-
-        let alarmTitle = LocalizedStringResource(stringLiteral: alarm.description)
 
         let alert = AlarmPresentation.Alert(
             title: alarmTitle,
@@ -53,20 +53,76 @@ final class AppAlarmKitManager {
             alert: alert
         )
 
-        let attributes = AlarmAttributes(
-            presentation: presentation,
-            metadata: EWAAlarmMetadata(alarmId: alarm.id),
-            tintColor: .purple
-        )
+        var lastError: Error?
 
-        let configuration = AlarmManager.AlarmConfiguration<EWAAlarmMetadata>(
-            schedule: schedule,
-            attributes: attributes
-        )
+        for offsetSeconds in 0...59 {
+            let alarmDate = baseDate.addingTimeInterval(TimeInterval(offsetSeconds))
 
-        try await AlarmManager.shared.schedule(
-            id: alarmId,
-            configuration: configuration
+            guard alarmDate > Date() else {
+                continue
+            }
+
+            let localAlarmId = UUID()
+
+            let schedule = Alarm.Schedule.fixed(alarmDate)
+
+            let attributes = AlarmAttributes(
+                presentation: presentation,
+                metadata: EWAAlarmMetadata(alarmId: alarm.id),
+                tintColor: .purple
+            )
+
+            let configuration = AlarmManager.AlarmConfiguration<EWAAlarmMetadata>(
+                schedule: schedule,
+                attributes: attributes
+            )
+
+            do {
+                print("Trying AlarmKit schedule")
+                print("Base date:", baseDate)
+                print("Offset seconds:", offsetSeconds)
+                print("AlarmKit date:", alarmDate)
+                print("Local AlarmKit id:", localAlarmId)
+                print("Backend alarm id:", alarm.id)
+
+                try await AlarmManager.shared.schedule(
+                    id: localAlarmId,
+                    configuration: configuration
+                )
+
+                print("Alarm scheduled successfully")
+                return
+
+            } catch {
+                print("AlarmKit error with offset \(offsetSeconds):", error)
+                lastError = error
+            }
+        }
+
+        throw lastError ?? NSError(
+            domain: "EWA.AlarmKit",
+            code: 0,
+            userInfo: [NSLocalizedDescriptionKey: "Failed to schedule alarm"]
         )
+    }
+    
+    func parseAlarmDate(date: String, time: String) -> Date? {
+        let formats = [
+            "yyyy-MM-dd HH:mm",
+            "dd.MM.yyyy HH:mm"
+        ]
+
+        for format in formats {
+            let formatter = DateFormatter()
+            formatter.dateFormat = format
+            formatter.locale = Locale(identifier: "ru_RU")
+            formatter.timeZone = .current
+
+            if let parsedDate = formatter.date(from: "\(date) \(time)") {
+                return parsedDate
+            }
+        }
+
+        return nil
     }
 }
